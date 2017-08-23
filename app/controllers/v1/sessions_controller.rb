@@ -3,7 +3,7 @@ class V1::SessionsController < ApiV1Controller
   before_action :authenticate_with_token!, only: :destroy
 
   def create
-    authenticator = Auth::UserAuthenticatorService.new(session_params[:email], session_params[:password])
+    authenticator = Auth::UserAuthenticatorService.new(session_params[:email], session_params[:password], session_params[:subdomain])
     if authenticator.authenticate
       sign_in(authenticator.user, scope: :user)
       @session = authenticator.session
@@ -35,7 +35,7 @@ class V1::SessionsController < ApiV1Controller
   private
 
   def session_params
-    params.permit(:email, :password)
+    params.permit(:email, :password, :subdomain)
   end
 
 end
