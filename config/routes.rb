@@ -1,3 +1,14 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  devise_for :tenant_users
+
+  namespace :v1 do
+    resources :sessions, only: :create do
+      collection do
+        put :refresh_token
+        delete :destroy, path: ""
+      end
+    end
+  end
+
 end
