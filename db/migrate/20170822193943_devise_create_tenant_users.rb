@@ -32,7 +32,8 @@ class DeviseCreateTenantUsers < ActiveRecord::Migration[5.1]
 
       t.references :tenant
       t.references :user
-      t.references :tenant_user
+      t.integer :created_by, foreign_key: { references: [:tenant_users, :id] }, null: false
+      t.integer :updated_by, foreign_key: { references: [:tenant_users, :id] }, null: false
 
       t.timestamps null: false
     end

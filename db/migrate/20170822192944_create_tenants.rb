@@ -4,7 +4,8 @@ class CreateTenants < ActiveRecord::Migration[5.1]
       t.string :name, null: false
       t.string :subdomain, null: false
       t.string :custom_fqdn, null: false
-      t.references :user, foreign_key: true
+      t.integer :created_by, foreign_key: { references: [:users, :id] }, null: false
+      t.integer :updated_by, foreign_key: { references: [:users, :id] }, null: false
 
       t.timestamps
     end
