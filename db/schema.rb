@@ -46,13 +46,13 @@ ActiveRecord::Schema.define(version: 20170822194210) do
     t.inet "last_sign_in_ip"
     t.bigint "tenant_id"
     t.bigint "user_id"
-    t.bigint "tenant_user_id"
+    t.integer "created_by", null: false
+    t.integer "updated_by", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_tenant_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_tenant_users_on_reset_password_token", unique: true
     t.index ["tenant_id"], name: "index_tenant_users_on_tenant_id"
-    t.index ["tenant_user_id"], name: "index_tenant_users_on_tenant_user_id"
     t.index ["user_id"], name: "index_tenant_users_on_user_id"
   end
 
@@ -60,23 +60,21 @@ ActiveRecord::Schema.define(version: 20170822194210) do
     t.string "name", null: false
     t.string "subdomain", null: false
     t.string "custom_fqdn", null: false
-    t.bigint "user_id"
+    t.integer "created_by", null: false
+    t.integer "updated_by", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_tenants_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "family_name", null: false
     t.string "additional_family_name", null: false
-    t.bigint "platform_user_id"
+    t.integer "created_by", null: false
+    t.integer "updated_by", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["platform_user_id"], name: "index_users_on_platform_user_id"
   end
 
   add_foreign_key "sessions", "tenant_users"
-  add_foreign_key "tenants", "users"
-  add_foreign_key "users", "platform_users"
 end

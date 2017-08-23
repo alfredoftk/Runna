@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
 
   include ApiV1ControllerHelper
   include APIAuthenticable
-  include ApiHelper
 
   def render_unknown_error error
     response_error_json_format ErrorResponse.unknown_error(error)
