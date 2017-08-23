@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   rescue_from StandardError, with: :render_unknown_error
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_error
 
-  include ApiV1ControllerHelper
+  include ApiControllerHelper
   include APIAuthenticable
 
   def render_unknown_error error

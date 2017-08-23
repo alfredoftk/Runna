@@ -4,7 +4,7 @@ class ErrorResponse
 
   def initialize(args)
     @title = args[:title] || "Error"
-    @error_code = args[:error_code] || Rack::Utils::SYMBOL_TO_STATUS_CODE[args[:status_code]] || 404
+    @error_code = args[:error_code] || Rack::Utils::SYMBOL_TO_STATUS_CODE[args[:status_code]] || 500
     @reasons = args[:reasons] || { base: "An error has ocurred" }
     @description = args[:description] || "An error has ocurred"
     @status_code = args[:status_code] || :ok
@@ -52,6 +52,10 @@ class ErrorResponse
 
   def self.unauthorized
     self.new(status_code: :unauthorized, title: "You are unauthorized to perform this action")
+  end
+
+  def self.unauthorized_invalid_or_expired_access_token
+    self.new(status_code: :unauthorized, title: "Invalid or expired token", error_code: 190)
   end
 
 end

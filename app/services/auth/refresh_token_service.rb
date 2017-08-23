@@ -19,18 +19,6 @@ module Auth
       return @session.present?
     end
 
-    private
-
-    attr_reader :old_session, :refresh_token
-
-    def user_exists?
-      user = User.find_by_email(email)
-      if user && user.valid_password?(password)
-        @user = user
-      end
-      return !@user.nil?
-    end
-
   end
 
 end
