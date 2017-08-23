@@ -6,7 +6,7 @@ class Session < ApplicationRecord
 
   before_create :set_values
   
-  validates :user, presence: true
+  validates :tenant_user, presence: true
 
   def set_values
     self.access_token = generate_token

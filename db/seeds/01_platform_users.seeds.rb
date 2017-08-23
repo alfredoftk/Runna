@@ -1,0 +1,1 @@
+PlatformUser.create! description: "PlatformUser 1"
