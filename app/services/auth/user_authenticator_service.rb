@@ -12,7 +12,7 @@ module Auth
 
     def authenticate
       if tenant_user_exists?
-        @session = @user.sessions.create
+        @session = @tenant_user.sessions.create
       end
       return @session.present?
     end
@@ -25,7 +25,7 @@ module Auth
       if tenant = Tenant.find_by_subdomain(subdomain)
         if user = User.find_by_email(email)
           if tenant_user = TenantUser.find_by(tenant: tenant, user: user)
-            if tenant_user.valid_password?(password)
+            if tenant_user.authenticate(password)
               @tenant_user = tenant_user
             else
               @error_response = ErrorResponse.new(status_code: :unprocessable_entity, title: "No se inició sesión", reasons: { password: "is incorrect" }, description: "Verifique su usuario y/o contraseña")

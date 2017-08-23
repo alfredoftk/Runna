@@ -5,9 +5,8 @@ class V1::SessionsController < ApiV1Controller
   def create
     authenticator = Auth::UserAuthenticatorService.new(session_params[:email], session_params[:password], session_params[:subdomain])
     if authenticator.authenticate
-      sign_in(authenticator.user, scope: :user)
       @session = authenticator.session
-      render :show
+      render json: @session
     else
       response_error_json_format(authenticator.error_response)
     end
@@ -17,7 +16,7 @@ class V1::SessionsController < ApiV1Controller
     refresher = Auth::RefreshTokenService.new(current_session, params[:refresh_token])
     if refresher.refresh
       @session = refresher.session
-      render :show
+      render json: @session
     else
       response_error_json_format(refresher.error_response)
     end

@@ -1,22 +1,13 @@
 class TenantUser < ApplicationRecord
 
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
-
   belongs_to :user
   belongs_to :tenant
-
+  belongs_to :created_by, foreign_key: :created_by_id, class_name: "TenantUser"
+  belongs_to :updated_by, foreign_key: :updated_by_id, class_name: "TenantUser"
   has_many :sessions
 
-  EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/
+  has_secure_password
 
-  def self.valid_email_format? email
-    return EMAIL_REGEX.match(email)
-  end
-
-  def create_session
-    session = self.sessions.build
-    session.save
-    session
-  end
+  validates :password, presence: true
 
 end

@@ -2,8 +2,6 @@ require 'api_constraints'
 
 Rails.application.routes.draw do
 
-  devise_for :tenant_users
-
   scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
     resources :sessions, only: :create do
       collection do

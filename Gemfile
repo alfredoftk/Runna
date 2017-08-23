@@ -20,16 +20,20 @@ gem 'pg', '~> 0.21.0'
 # Great Ruby dubugging companion: pretty print Ruby objects to visualize their structure.
 gem 'awesome_print', '~> 1.8'
 
-# Flexible authentication solution for Rails with Warden
-gem 'devise', '~> 4.3'
-
 # CanCanCan is an authorization library which restricts what resources a given user is allowed to access
 gem 'cancancan', '~> 2.0'
 
+# Allows you to generate your JSON in an object-oriented and convention-driven manner.
+gem 'active_model_serializers', '~> 0.10.6'
+
+# To split out complex seeds into multiple files and lets each environment have it's own seeds.
+gem 'seedbank', '~> 0.4.0'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
+
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
