@@ -14,6 +14,9 @@ gem 'puma', '~> 3.7'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 
+# Turbolinks makes navigating your web application faster.
+gem 'turbolinks', '~> 5'
+
 # Pg is the Ruby interface to the {PostgreSQL RDBMS}[http://www.postgresql.org/].
 gem 'pg', '~> 0.21.0'
 
@@ -28,6 +31,9 @@ gem 'active_model_serializers', '~> 0.10.6'
 
 # To split out complex seeds into multiple files and lets each environment have it's own seeds.
 gem 'seedbank', '~> 0.4.0'
+
+# RailsAdmin is a Rails engine that provides an easy-to-use interface for managing your data.
+gem 'rails_admin', '~> 1.2'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
