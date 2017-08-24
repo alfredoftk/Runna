@@ -1,6 +1,6 @@
 class V1::SessionsController < ApiV1Controller
 
-  before_action :authenticate_with_token!, only: :destroy
+  before_action :authenticate_with_token!, only: [:destroy, :current]
 
   def create
     authenticator = Auth::UserAuthenticatorService.new(session_params[:email], session_params[:password], session_params[:subdomain])
@@ -10,6 +10,10 @@ class V1::SessionsController < ApiV1Controller
     else
       response_error_json_format(authenticator.error_response)
     end
+  end
+
+  def current
+    render json: current_tenant_user
   end
 
   def refresh_token
