@@ -1,0 +1,2 @@
+class FormServiceValidation < FormValidation
+end
