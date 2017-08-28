@@ -1,3 +1,4 @@
+region = Region.find_by(key: 'MEX')
 platform_user = PlatformUser.first
 
 # Form
@@ -28,7 +29,7 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 1,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Apellido Paterno",
@@ -40,7 +41,7 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 2,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Apellido Materno",
@@ -52,7 +53,7 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 3,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "ID de empleado",
@@ -64,7 +65,7 @@ personal_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 4,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "CURP",
@@ -76,7 +77,7 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 5,
-    region_id: nil
+    region: region
   },
   {
     display_name: "RFC",
@@ -88,7 +89,7 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 6,
-    region_id: nil
+    region: region
   },
   {
     display_name: "Seguro Social",
@@ -100,7 +101,7 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 7,
-    region_id: nil
+    region: region
   },
   {
     display_name: "Email Personal",
@@ -112,7 +113,7 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 8,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Email laboral",
@@ -124,7 +125,7 @@ personal_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 9,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Invitar al empleado a ingresar la información personal adicional",
@@ -143,7 +144,7 @@ personal_info_fields = [
     widget_type: "checkbox",
     required: false,
     field_order: 9,
-    region_id: nil
+    region: nil
   }
 ]
 personal_info_section.form_fields.create(personal_info_fields)
@@ -161,7 +162,7 @@ addittional_basic_info_fields = [
     widget_type: "select",
     required: true,
     field_order: 1,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Teléfono",
@@ -173,7 +174,7 @@ addittional_basic_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 2,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Estado Civil",
@@ -204,7 +205,7 @@ addittional_basic_info_fields = [
     widget_type: "",
     required: true,
     field_order: 3,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Dirección",
@@ -216,7 +217,7 @@ addittional_basic_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 4,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Hijos",
@@ -228,7 +229,7 @@ addittional_basic_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 5,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Perfil de Linkedin",
@@ -240,7 +241,7 @@ addittional_basic_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 6,
-    region_id: nil
+    region: nil
   }
 ]
 addittional_basic_info_section.form_fields.create(addittional_basic_info_fields)
@@ -258,7 +259,7 @@ emergency_contact_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 1,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Parentezco",
@@ -270,7 +271,7 @@ emergency_contact_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 2,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Email",
@@ -282,7 +283,7 @@ emergency_contact_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 3,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Celular",
@@ -294,7 +295,7 @@ emergency_contact_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 4,
-    region_id: nil
+    region: nil
   }
 ]
 emergency_contact_section.form_fields.create(emergency_contact_info_fields)
@@ -312,7 +313,7 @@ preferences_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 1,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Alergias",
@@ -324,7 +325,7 @@ preferences_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 2,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Color Favorito",
@@ -336,7 +337,7 @@ preferences_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 3,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Dulce Favorito",
@@ -348,7 +349,7 @@ preferences_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 4,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Bebida Favorita",
@@ -360,7 +361,7 @@ preferences_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 5,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Café o Té",
@@ -383,7 +384,7 @@ preferences_info_fields = [
     widget_type: "select",
     required: false,
     field_order: 6,
-    region_id: nil
+    region: nil
   },
   {
     display_name: "Dulce o Salado",
@@ -406,7 +407,7 @@ preferences_info_fields = [
     widget_type: "select",
     required: false,
     field_order: 7,
-    region_id: nil
+    region: nil
   }
 ]
 preferences_section.form_fields.create(preferences_info_fields)

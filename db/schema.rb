@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170828151417) do
+ActiveRecord::Schema.define(version: 20170828214112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,15 @@ ActiveRecord::Schema.define(version: 20170828151417) do
     t.index ["user_id"], name: "index_company_users_on_user_id"
   end
 
+  create_table "form_field_validations", force: :cascade do |t|
+    t.bigint "form_field_id", null: false
+    t.bigint "form_validation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["form_field_id"], name: "index_form_field_validations_on_form_field_id"
+    t.index ["form_validation_id"], name: "index_form_field_validations_on_form_validation_id"
+  end
+
   create_table "form_fields", force: :cascade do |t|
     t.string "display_name", null: false
     t.string "help_text"
@@ -81,6 +90,15 @@ ActiveRecord::Schema.define(version: 20170828151417) do
     t.datetime "updated_at", null: false
     t.index ["form_id"], name: "index_form_sections_on_form_id"
     t.index ["key"], name: "index_form_sections_on_key", unique: true
+  end
+
+  create_table "form_validations", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "type", null: false
+    t.string "error_message", null: false
+    t.json "options"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "forms", force: :cascade do |t|
@@ -142,6 +160,8 @@ ActiveRecord::Schema.define(version: 20170828151417) do
   add_foreign_key "company_form_fields", "form_fields"
   add_foreign_key "company_users", "companies"
   add_foreign_key "company_users", "users"
+  add_foreign_key "form_field_validations", "form_fields"
+  add_foreign_key "form_field_validations", "form_validations"
   add_foreign_key "form_fields", "form_sections"
   add_foreign_key "form_fields", "regions"
   add_foreign_key "form_sections", "forms"
