@@ -1,2 +1,2 @@
-User.create! email: "daredevil@runahr.com", name: "Dare", family_name: "De", additional_family_name: "Vil", created_by: PlatformUser.find_by(description: "PlatformUser 1"), updated_by: PlatformUser.find_by(description: "PlatformUser 1")
-User.create! email: "ironman@runahr.com", name: "I", family_name: "Ron", additional_family_name: "Man", created_by: PlatformUser.find_by(description: "PlatformUser 1"), updated_by: PlatformUser.find_by(description: "PlatformUser 1")
+User.create email: "daredevil@runahr.com", name: "Dare", family_name: "De", additional_family_name: "Vil"
+User.create email: "ironman@runahr.com", name: "I", family_name: "Ron", additional_family_name: "Man"
