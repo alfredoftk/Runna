@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170822194210) do
+ActiveRecord::Schema.define(version: 20170828151417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,17 +19,28 @@ ActiveRecord::Schema.define(version: 20170822194210) do
     t.string "name", null: false
     t.string "subdomain", null: false
     t.string "custom_fqdn", null: false
+    t.bigint "region_id", null: false
     t.integer "created_by_id"
     t.integer "updated_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_companies_on_region_id"
     t.index ["subdomain"], name: "index_companies_on_subdomain", unique: true
   end
 
+  create_table "company_form_fields", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.bigint "form_field_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_form_fields_on_company_id"
+    t.index ["form_field_id"], name: "index_company_form_fields_on_form_field_id"
+  end
+
   create_table "company_users", force: :cascade do |t|
-    t.bigint "company_id"
-    t.bigint "user_id"
-    t.string "password_digest"
+    t.bigint "company_id", null: false
+    t.bigint "user_id", null: false
+    t.string "password_digest", null: false
     t.integer "created_by_id"
     t.integer "updated_by_id"
     t.datetime "created_at", null: false
@@ -38,17 +49,74 @@ ActiveRecord::Schema.define(version: 20170822194210) do
     t.index ["user_id"], name: "index_company_users_on_user_id"
   end
 
+  create_table "form_fields", force: :cascade do |t|
+    t.string "display_name", null: false
+    t.string "help_text"
+    t.string "name", null: false
+    t.string "input_data_source"
+    t.string "data_type", null: false
+    t.json "widget_attributes"
+    t.string "widget_type"
+    t.boolean "required", default: false, null: false
+    t.integer "field_order", null: false
+    t.bigint "form_section_id", null: false
+    t.bigint "region_id"
+    t.integer "created_by_id"
+    t.integer "updated_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["form_section_id"], name: "index_form_fields_on_form_section_id"
+    t.index ["region_id"], name: "index_form_fields_on_region_id"
+  end
+
+  create_table "form_sections", force: :cascade do |t|
+    t.string "title"
+    t.string "key", null: false
+    t.text "description"
+    t.integer "section_order", null: false
+    t.bigint "form_id", null: false
+    t.integer "created_by_id"
+    t.integer "updated_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["form_id"], name: "index_form_sections_on_form_id"
+    t.index ["key"], name: "index_form_sections_on_key", unique: true
+  end
+
+  create_table "forms", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "key", null: false
+    t.text "description"
+    t.integer "created_by_id"
+    t.integer "updated_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_forms_on_key", unique: true
+  end
+
   create_table "platform_users", force: :cascade do |t|
     t.string "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "regions", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "key", null: false
+    t.integer "parent_id"
+    t.integer "created_by_id"
+    t.integer "updated_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_regions_on_key", unique: true
+    t.index ["name"], name: "index_regions_on_name", unique: true
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.string "access_token", null: false
     t.string "refresh_token", null: false
     t.datetime "expires_at", null: false
-    t.bigint "company_user_id"
+    t.bigint "company_user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["access_token"], name: "index_sessions_on_access_token", unique: true
@@ -57,10 +125,10 @@ ActiveRecord::Schema.define(version: 20170822194210) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name", null: false
     t.string "email", null: false
+    t.string "name", null: false
     t.string "family_name", null: false
-    t.string "additional_family_name", null: false
+    t.string "additional_family_name"
     t.integer "created_by_id"
     t.integer "updated_by_id"
     t.datetime "created_at", null: false
@@ -68,7 +136,13 @@ ActiveRecord::Schema.define(version: 20170822194210) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "companies", "regions"
+  add_foreign_key "company_form_fields", "companies"
+  add_foreign_key "company_form_fields", "form_fields"
   add_foreign_key "company_users", "companies"
   add_foreign_key "company_users", "users"
+  add_foreign_key "form_fields", "form_sections"
+  add_foreign_key "form_fields", "regions"
+  add_foreign_key "form_sections", "forms"
   add_foreign_key "sessions", "company_users"
 end

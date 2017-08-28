@@ -1,0 +1,1 @@
+Region.create name: "Mexico", key: "MEX"

@@ -1,0 +1,2 @@
+Company.create name: "Tektonlabs", subdomain: "tk", custom_fqdn: "tektonlabs.runahr.com", region: Region.find_by(key: "MEX"), created_by: User.find_by(email: "daredevil@runahr.com"), updated_by: User.find_by(email: "daredevil@runahr.com")
+Company.create name: "01Labs", subdomain: "01labs", custom_fqdn: "labs.runahr.com", region: Region.find_by(key: "MEX"), created_by: User.find_by(email: "ironman@runahr.com"), updated_by: User.find_by(email: "ironman@runahr.com")
