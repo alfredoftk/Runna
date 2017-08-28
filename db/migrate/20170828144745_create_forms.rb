@@ -4,6 +4,7 @@ class CreateForms < ActiveRecord::Migration[5.1]
       t.string :title, null: false
       t.string :key, null: false
       t.text :description, null: true
+      t.string :form_type, null: false
       t.integer :created_by_id, foreign_key: { references: [:platform_users, :id] }, null: true
       t.integer :updated_by_id, foreign_key: { references: [:platform_users, :id] }, null: true
 

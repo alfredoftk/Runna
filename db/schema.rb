@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20170828151417) do
     t.string "title", null: false
     t.string "key", null: false
     t.text "description"
+    t.string "form_type", null: false
     t.integer "created_by_id"
     t.integer "updated_by_id"
     t.datetime "created_at", null: false

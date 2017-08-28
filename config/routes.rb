@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         delete :destroy, path: ""
       end
     end
+    resources :forms, only: :index
   end
 
 end
