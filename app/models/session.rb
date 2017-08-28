@@ -1,12 +1,12 @@
 class Session < ApplicationRecord
 
-  belongs_to :tenant_user
+  belongs_to :company_user
 
   include Tokenable
 
   before_create :set_values
   
-  validates :tenant_user, presence: true
+  validates :company_user, presence: true
 
   def set_values
     self.access_token = generate_token

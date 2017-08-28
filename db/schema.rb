@@ -15,6 +15,29 @@ ActiveRecord::Schema.define(version: 20170822194210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "companies", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "subdomain", null: false
+    t.string "custom_fqdn", null: false
+    t.integer "created_by_id"
+    t.integer "updated_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subdomain"], name: "index_companies_on_subdomain", unique: true
+  end
+
+  create_table "company_users", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "user_id"
+    t.string "password_digest"
+    t.integer "created_by_id"
+    t.integer "updated_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_users_on_company_id"
+    t.index ["user_id"], name: "index_company_users_on_user_id"
+  end
+
   create_table "platform_users", force: :cascade do |t|
     t.string "description", null: false
     t.datetime "created_at", null: false
@@ -25,35 +48,12 @@ ActiveRecord::Schema.define(version: 20170822194210) do
     t.string "access_token", null: false
     t.string "refresh_token", null: false
     t.datetime "expires_at", null: false
-    t.bigint "tenant_user_id"
+    t.bigint "company_user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["access_token"], name: "index_sessions_on_access_token", unique: true
+    t.index ["company_user_id"], name: "index_sessions_on_company_user_id"
     t.index ["refresh_token"], name: "index_sessions_on_refresh_token", unique: true
-    t.index ["tenant_user_id"], name: "index_sessions_on_tenant_user_id"
-  end
-
-  create_table "tenant_users", force: :cascade do |t|
-    t.bigint "tenant_id"
-    t.bigint "user_id"
-    t.string "password_digest"
-    t.integer "created_by_id"
-    t.integer "updated_by_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["tenant_id"], name: "index_tenant_users_on_tenant_id"
-    t.index ["user_id"], name: "index_tenant_users_on_user_id"
-  end
-
-  create_table "tenants", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "subdomain", null: false
-    t.string "custom_fqdn", null: false
-    t.integer "created_by_id"
-    t.integer "updated_by_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["subdomain"], name: "index_tenants_on_subdomain", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 20170822194210) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "sessions", "tenant_users"
-  add_foreign_key "tenant_users", "tenants"
-  add_foreign_key "tenant_users", "users"
+  add_foreign_key "company_users", "companies"
+  add_foreign_key "company_users", "users"
+  add_foreign_key "sessions", "company_users"
 end

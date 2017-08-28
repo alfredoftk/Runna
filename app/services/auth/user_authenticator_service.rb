@@ -2,7 +2,7 @@ module Auth
 
   class UserAuthenticatorService
 
-    attr_accessor :tenant_user, :session, :error_response
+    attr_accessor :company_user, :session, :error_response
 
     def initialize(email, password, subdomain)
       @email = email
@@ -11,8 +11,8 @@ module Auth
     end
 
     def authenticate
-      if tenant_user_exists?
-        @session = @tenant_user.sessions.create
+      if company_user_exists?
+        @session = @company_user.sessions.create
       end
       return @session.present?
     end
@@ -21,25 +21,25 @@ module Auth
 
     attr_reader :email, :password, :subdomain
 
-    def tenant_user_exists?
-      if tenant_user = TenantUser.find_by(tenant: tenant, user: user)
-        if tenant_user.authenticate(password)
-          @tenant_user = tenant_user
+    def company_user_exists?
+      if company_user = CompanyUser.find_by(company: company, user: user)
+        if company_user.authenticate(password)
+          @company_user = company_user
         else
           @error_response = ErrorResponse.new(status_code: :unprocessable_entity, title: "No se inició sesión", reasons: { password: "is incorrect" }, description: "Verifique su usuario y/o contraseña")
         end
       else
-        @error_response = ErrorResponse.new(status_code: :unprocessable_entity, title: "No se inició sesión", reasons: { tenant_user: "not found" }, description: "Verifique el subdomain y/o email")
+        @error_response = ErrorResponse.new(status_code: :unprocessable_entity, title: "No se inició sesión", reasons: { company_user: "not found" }, description: "Verifique el subdomain y/o email")
       end
-      return @tenant_user.present?
+      return @company_user.present?
     end
 
-    def tenant
-      @tenant = Tenant.find_by_subdomain(subdomain)
-      if @tenant.nil?
+    def company
+      @company = Company.find_by_subdomain(subdomain)
+      if @company.nil?
         @error_response = ErrorResponse.new(status_code: :unprocessable_entity, title: "No se inició sesión", reasons: { subdomain: "does not exist" }, description: "Verifique su subdomain")
       end
-      return @tenant
+      return @company
     end
 
     def user

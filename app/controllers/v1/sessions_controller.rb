@@ -13,7 +13,7 @@ class V1::SessionsController < ApiV1Controller
   end
 
   def current
-    render json: current_tenant_user
+    render json: current_company_user
   end
 
   def refresh_token
