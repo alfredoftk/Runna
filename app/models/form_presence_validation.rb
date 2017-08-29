@@ -1,0 +1,2 @@
+class FormPresenceValidation < FormValidation
+end
