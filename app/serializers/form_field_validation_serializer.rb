@@ -1,5 +1,5 @@
 class FormFieldValidationSerializer < ActiveModel::Serializer
 
-  attributes :name, :type, :options, :message
+  attributes :type, :options, :message
 
 end
