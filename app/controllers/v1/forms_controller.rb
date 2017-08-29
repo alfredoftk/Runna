@@ -12,7 +12,7 @@ class V1::FormsController < ApiV1Controller
   end
 
   def show
-    render json: form, each_serializer: DetailFormSerializer, include: 'form_sections,form_sections.form_fields,form_sections.form_fields.form_field_validations'
+    render json: @form, serializer: DetailFormSerializer, include: 'form_sections,form_sections.form_fields,form_sections.form_fields.form_field_validations'
   end
 
   private
