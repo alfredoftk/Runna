@@ -6,5 +6,8 @@ class Form < ApplicationRecord
 
   enum form_type: { employee: "employee" }
 
+  def to_param
+    key
+  end
 
 end

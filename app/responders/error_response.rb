@@ -55,7 +55,7 @@ class ErrorResponse
   end
 
   def self.unauthorized_invalid_or_expired_access_token
-    self.new(status_code: :unauthorized, title: "Invalid or expired token", error_code: 190)
+    self.new(status_code: :unauthorized, title: "Invalid or expired token", error_code: ErrorCode::EXPIRED_OR_INVALID_TOKEN_ERROR_CODE)
   end
 
 end

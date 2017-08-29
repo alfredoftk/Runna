@@ -1,4 +1,4 @@
-class FormLengthValidation < FormValidation
+class FormLengthValidation < FormFieldValidation
   before_save :verify_options
 
   def verify_options
