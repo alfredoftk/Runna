@@ -1,4 +1,4 @@
-class FormNumericalityValidation < FormValidation
+class FormNumericalityValidation < FormFieldValidation
   before_save :verify_options
 
   def verify_options

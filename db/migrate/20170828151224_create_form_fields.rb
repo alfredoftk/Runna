@@ -6,8 +6,8 @@ class CreateFormFields < ActiveRecord::Migration[5.1]
       t.string :name, null: false
       t.string :input_data_source, null: true
       t.string :data_type, null: false
-      t.json :widget_attributes, null: true
-      t.string :widget_type, null: true
+      t.json :widget_attributes, null: false, default: {}
+      t.string :widget_type, null: false, default: 'text'
       t.boolean :required, null: false, default: false
       t.integer :field_order, null: false
       t.references :form_section, foreign_key: true, null: false

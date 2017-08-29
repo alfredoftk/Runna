@@ -1,2 +1,2 @@
-class FormPresenceValidation < FormValidation
+class FormPresenceValidation < FormFieldValidation
 end

@@ -29,7 +29,15 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 1,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Nombre requerido",
+        type: "FormPresenceValidation",
+        message: "El nombre es requerido",
+        options: {},
+      }
+    ]
   },
   {
     display_name: "Apellido Paterno",
@@ -41,7 +49,15 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 2,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Apellido Paterno requerido",
+        type: "FormPresenceValidation",
+        message: "El Apellido Paterno es requerido",
+        options: {},
+      }
+    ]
   },
   {
     display_name: "Apellido Materno",
@@ -53,7 +69,15 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 3,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Apellido Materno requerido",
+        type: "FormPresenceValidation",
+        message: "El Apellido Materno es requerido",
+        options: {},
+      }
+    ]
   },
   {
     display_name: "ID de empleado",
@@ -65,7 +89,8 @@ personal_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 4,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   },
   {
     display_name: "CURP",
@@ -77,7 +102,31 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 5,
-    region: region
+    region: region,
+    form_field_validations_attributes:[
+      {
+        name: "CURP requerido",
+        type: "FormPresenceValidation",
+        message: "El CURP es requerido",
+        options: {}
+      },
+      {
+        name: "CURP length",
+        type: "FormLengthValidation",
+        message: "El CURP debe tener 18 caracteres",
+        options: {
+          is: 18
+        }
+      },
+      {
+        name: "CURP Format",
+        type: "FormFormatValidation",
+        message: "El CURP no tiene el formato correcto",
+        options: {
+          with: '/\A[A-Z][AEIOUX][A-Z]{2}[0-9]{2}[0-1][0-9][0-3][0-9][MH][A-Z][BCDFGHJKLMNÑPQRSTVWXYZ]{4}[0-9A-Z][0-9]\z/i'
+        }
+      }
+    ]
   },
   {
     display_name: "RFC",
@@ -89,7 +138,23 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 6,
-    region: region
+    region: region,
+    form_field_validations_attributes: [
+      {
+        name: "RFC requerido",
+        type: "FormPresenceValidation",
+        message: "El RFC es requerido",
+        options: {}
+      },
+      {
+        name: "RFC Format",
+        type: "FormFormatValidation",
+        message: "El RFC no tiene el formato correcto",
+        options: {
+          with: '/\A[A-ZÑ&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9]([A-Z0-9]{3})?\z/i'
+        }
+      }
+    ]
   },
   {
     display_name: "Seguro Social",
@@ -101,19 +166,43 @@ personal_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 7,
-    region: region
+    region: region,
+    form_field_validations_attributes: [
+      {
+        name: "Seguro Social requerido",
+        type: "FormPresenceValidation",
+        message: "El Seguro Social es requerido",
+        options: {},
+      }
+    ]
   },
   {
-    display_name: "Email Personal",
+    display_name: "Email personal",
     help_text: "",
     name: "personal_email",
     input_data_source: nil,
     data_type: "string",
     widget_attributes: {},
-    widget_type: "text",
+    widget_type: "email",
     required: true,
     field_order: 8,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Email Personal requerido",
+        type: "FormPresenceValidation",
+        message: "El Email Personal es requerido",
+        options: {}
+      },
+      {
+        name: "Email Personal Format",
+        type: "FormFormatValidation",
+        message: "El Email Personal no tiene el formato correcto",
+        options: {
+          with: '/\A[^@\s]+@[^@\s]+\z/'
+        }
+      }
+    ]
   },
   {
     display_name: "Email laboral",
@@ -122,10 +211,20 @@ personal_info_fields = [
     input_data_source: nil,
     data_type: "string",
     widget_attributes: {},
-    widget_type: "text",
+    widget_type: "email",
     required: false,
     field_order: 9,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Email laboral Format",
+        type: "FormFormatValidation",
+        message: "El Email laboral no tiene el formato correcto",
+        options: {
+          with: '/\A[^@\s]+@[^@\s]+\z/'
+        }
+      }
+    ]
   },
   {
     display_name: "Invitar al empleado a ingresar la información personal adicional",
@@ -143,8 +242,9 @@ personal_info_fields = [
     },
     widget_type: "checkbox",
     required: false,
-    field_order: 9,
-    region: nil
+    field_order: 10,
+    region: nil,
+    form_field_validations_attributes: []
   }
 ]
 personal_info_section.form_fields.create(personal_info_fields)
@@ -155,26 +255,42 @@ addittional_basic_info_fields = [
   {
     display_name: "Nacionalidad",
     help_text: nil,
-    name: "name",
+    name: "nacionality",
     input_data_source: "nacionality",
     data_type: "string",
     widget_attributes: {},
     widget_type: "select",
     required: true,
     field_order: 1,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Nacionalidad requerido",
+        type: "FormPresenceValidation",
+        message: "La Nacionalidad es requerida",
+        options: {}
+      }
+    ]
   },
   {
     display_name: "Teléfono",
     help_text: nil,
-    name: "family_name",
+    name: "phone",
     input_data_source: nil,
     data_type: "string",
     widget_attributes: {},
     widget_type: "text",
     required: true,
     field_order: 2,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Teléfono requerido",
+        type: "FormPresenceValidation",
+        message: "El Teléfono es requerido",
+        options: {}
+      }
+    ]
   },
   {
     display_name: "Estado Civil",
@@ -202,10 +318,18 @@ addittional_basic_info_fields = [
         }
       ]
     },
-    widget_type: "",
+    widget_type: "select",
     required: true,
     field_order: 3,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Estado Civil requerido",
+        type: "FormPresenceValidation",
+        message: "El Estado Civil es requerido",
+        options: {}
+      }
+    ]
   },
   {
     display_name: "Dirección",
@@ -217,19 +341,69 @@ addittional_basic_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 4,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Dirección requerido",
+        type: "FormPresenceValidation",
+        message: "La Dirección es requerida",
+        options: {}
+      }
+    ]
   },
   {
-    display_name: "Hijos",
+    display_name: "¿Tiene Hijos?",
     help_text: "",
-    name: "children",
+    name: "has_children",
     input_data_source: nil,
-    data_type: "string",
-    widget_attributes: {},
-    widget_type: "text",
+    data_type: "boolean",
+    widget_attributes: {
+      options: [
+        {
+          value: true,
+          label: "Sí"
+        },
+        {
+          value: false,
+          label: "No"
+        }
+      ]
+    },
+    widget_type: "radio",
     required: true,
     field_order: 5,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Tiene Hijos requerido",
+        type: "FormPresenceValidation",
+        message: "Es requerido",
+        options: {}
+      }
+    ]
+  },
+  {
+    display_name: "Número de Hijos",
+    help_text: "",
+    name: "children_number",
+    input_data_source: nil,
+    data_type: "integer",
+    widget_attributes: {},
+    widget_type: "text",
+    required: false,
+    field_order: 6,
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Email Personal Numericality",
+        type: "FormNumericalityValidation",
+        message: "El Número de hijos debe ser numérico",
+        options: {
+          only_integer: true,
+          greater_than: 0
+        }
+      }
+    ]
   },
   {
     display_name: "Perfil de Linkedin",
@@ -240,8 +414,9 @@ addittional_basic_info_fields = [
     widget_attributes: {},
     widget_type: "text",
     required: false,
-    field_order: 6,
-    region: nil
+    field_order: 7,
+    region: nil,
+    form_field_validations_attributes: []
   }
 ]
 addittional_basic_info_section.form_fields.create(addittional_basic_info_fields)
@@ -259,7 +434,8 @@ emergency_contact_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 1,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   },
   {
     display_name: "Parentezco",
@@ -271,7 +447,8 @@ emergency_contact_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 2,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   },
   {
     display_name: "Email",
@@ -283,7 +460,8 @@ emergency_contact_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 3,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   },
   {
     display_name: "Celular",
@@ -295,7 +473,8 @@ emergency_contact_info_fields = [
     widget_type: "text",
     required: true,
     field_order: 4,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   }
 ]
 emergency_contact_section.form_fields.create(emergency_contact_info_fields)
@@ -310,10 +489,11 @@ preferences_info_fields = [
     input_data_source: "food",
     data_type: "string",
     widget_attributes: {},
-    widget_type: "text",
+    widget_type: "select",
     required: false,
     field_order: 1,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   },
   {
     display_name: "Alergias",
@@ -325,7 +505,8 @@ preferences_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 2,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   },
   {
     display_name: "Color Favorito",
@@ -337,7 +518,8 @@ preferences_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 3,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   },
   {
     display_name: "Dulce Favorito",
@@ -349,7 +531,8 @@ preferences_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 4,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   },
   {
     display_name: "Bebida Favorita",
@@ -361,7 +544,8 @@ preferences_info_fields = [
     widget_type: "text",
     required: false,
     field_order: 5,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   },
   {
     display_name: "Café o Té",
@@ -384,7 +568,8 @@ preferences_info_fields = [
     widget_type: "select",
     required: false,
     field_order: 6,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   },
   {
     display_name: "Dulce o Salado",
@@ -407,7 +592,8 @@ preferences_info_fields = [
     widget_type: "select",
     required: false,
     field_order: 7,
-    region: nil
+    region: nil,
+    form_field_validations_attributes: []
   }
 ]
 preferences_section.form_fields.create(preferences_info_fields)

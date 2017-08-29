@@ -1,4 +1,4 @@
-class FormExclusionValidation < FormValidation
+class FormExclusionValidation < FormFieldValidation
   before_save :verify_options
 
   def verify_options

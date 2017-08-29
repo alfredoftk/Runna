@@ -11,9 +11,7 @@ Rails.application.routes.draw do
         delete :destroy, path: ""
       end
     end
-    resources :forms, only: :index do
-      get ':type', to: 'forms#register', on: :collection
-    end
+    resources :forms, only: [:index, :show], param: :key
   end
 
 end
