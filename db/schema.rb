@@ -126,6 +126,8 @@ ActiveRecord::Schema.define(version: 20170830171405) do
     t.string "widget_type", default: "text", null: false
     t.boolean "required", default: false, null: false
     t.integer "field_order", null: false
+    t.json "render_if"
+    t.string "depends_on"
     t.bigint "form_section_id", null: false
     t.bigint "region_id"
     t.integer "created_by_id"
@@ -133,6 +135,7 @@ ActiveRecord::Schema.define(version: 20170830171405) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["form_section_id"], name: "index_form_fields_on_form_section_id"
+    t.index ["name", "form_section_id"], name: "index_form_fields_on_name_and_form_section_id", unique: true
     t.index ["region_id"], name: "index_form_fields_on_region_id"
   end
 

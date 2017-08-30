@@ -12,7 +12,8 @@ class V1::FormsController < ApiV1Controller
   end
 
   def show
-    render json: @form, serializer: DetailFormSerializer, include: 'form_sections,form_sections.form_fields,form_sections.form_fields.form_field_validations'
+    @company_form_fields = current_company_user.company.form_fields_by_form_id(@form.id)
+    render json: { form: @form, company_form_fields: @company_form_fields }, serializer: CompanyFormFieldsSerializer
   end
 
   private
