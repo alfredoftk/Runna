@@ -799,6 +799,77 @@ job_info_fields = [
       }
     ]
   },
+  {
+    display_name: "Reportar a",
+    help_text: nil,
+    name: "report_to",
+    input_data_source: "user",
+    data_type: "string",
+    widget_attributes: {},
+    widget_type: "select",
+    required: true,
+    field_order: 3,
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Reportar a requerido",
+        type: "FormPresenceValidation",
+        message: "El campo Reportar a es requerido",
+        options: {},
+      }
+    ]
+  },
+  {
+    display_name: "Sede",
+    help_text: nil,
+    name: "headquarter",
+    input_data_source: "headquarter",
+    data_type: "string",
+    widget_attributes: {},
+    widget_type: "select",
+    required: true,
+    field_order: 4,
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Sede requerida",
+        type: "FormPresenceValidation",
+        message: "Sede es requerida",
+        options: {},
+      }
+    ]
+  },
+  {
+    display_name: "Sindicalizado",
+    help_text: "",
+    name: "has_union",
+    input_data_source: nil,
+    data_type: "boolean",
+    widget_attributes: {
+      options: [
+        {
+          value: true,
+          label: "Sí"
+        },
+        {
+          value: false,
+          label: "No"
+        }
+      ]
+    },
+    widget_type: "radio",
+    required: true,
+    field_order: 5,
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Sindicalizado requerido",
+        type: "FormPresenceValidation",
+        message: "Es requerido",
+        options: {}
+      }
+    ]
+  },
 ]
 job_info_section.form_fields.create(job_info_fields)
 

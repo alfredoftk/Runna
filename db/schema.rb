@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170830152005) do
+ActiveRecord::Schema.define(version: 20170830171405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,23 @@ ActiveRecord::Schema.define(version: 20170830152005) do
     t.index ["region_id"], name: "index_banks_on_region_id"
   end
 
+  create_table "benefit_details", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "value", null: false
+    t.bigint "benefit_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["benefit_id"], name: "index_benefit_details_on_benefit_id"
+  end
+
+  create_table "benefits", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "region_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_benefits_on_region_id"
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
     t.string "subdomain", null: false
@@ -42,6 +59,23 @@ ActiveRecord::Schema.define(version: 20170830152005) do
     t.datetime "updated_at", null: false
     t.index ["region_id"], name: "index_companies_on_region_id"
     t.index ["subdomain"], name: "index_companies_on_subdomain", unique: true
+  end
+
+  create_table "company_benefit_details", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "value", null: false
+    t.bigint "company_benefit_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_benefit_id"], name: "index_company_benefit_details_on_company_benefit_id"
+  end
+
+  create_table "company_benefits", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_benefits_on_company_id"
   end
 
   create_table "company_form_fields", force: :cascade do |t|
@@ -186,7 +220,11 @@ ActiveRecord::Schema.define(version: 20170830152005) do
 
   add_foreign_key "areas", "companies"
   add_foreign_key "banks", "regions"
+  add_foreign_key "benefit_details", "benefits"
+  add_foreign_key "benefits", "regions"
   add_foreign_key "companies", "regions"
+  add_foreign_key "company_benefit_details", "company_benefits"
+  add_foreign_key "company_benefits", "companies"
   add_foreign_key "company_form_fields", "companies"
   add_foreign_key "company_form_fields", "form_fields"
   add_foreign_key "company_users", "companies"
