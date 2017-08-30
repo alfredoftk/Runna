@@ -251,7 +251,7 @@ personal_info_fields = [
     form_field_validations_attributes: []
   }
 ]
-personal_info_section.form_fields.create(personal_info_fields)
+personal_info_fields = personal_info_section.form_fields.create(personal_info_fields)
 
 # Form fields for addittional_basic_info
 
@@ -423,7 +423,9 @@ addittional_basic_info_fields = [
     form_field_validations_attributes: []
   }
 ]
-addittional_basic_info_section.form_fields.create(addittional_basic_info_fields)
+addittional_basic_info_fields = addittional_basic_info_section.form_fields.create(addittional_basic_info_fields)
+children_number_field = FormField.find_by(name: 'children_number')
+children_number_field.update(depends_on: 'has_children', render_if: { value: true })
 
 # Form fields for emergency_contact_info
 
@@ -517,7 +519,7 @@ emergency_contact_info_fields = [
     ]
   }
 ]
-emergency_contact_section.form_fields.create(emergency_contact_info_fields)
+emergency_contact_fields = emergency_contact_section.form_fields.create(emergency_contact_info_fields)
 
 # Form fields for preferences_info
 
@@ -636,7 +638,7 @@ preferences_info_fields = [
     form_field_validations_attributes: []
   }
 ]
-preferences_section.form_fields.create(preferences_info_fields)
+preferences_fields = preferences_section.form_fields.create(preferences_info_fields)
 
 # Form fields for account_details
 
@@ -737,144 +739,5 @@ account_details_fields = [
     ]
   }
 ]
-account_details_section.form_fields.create(account_details_fields)
+account_details_fields = account_details_section.form_fields.create(account_details_fields)
 
-
-
-# --------------------------------- Add employee step 2
-
-# Form
-form_data = { title: "Información de Empleo", key: "employment_info", form_type: "employee", description: "", created_by: platform_user, updated_by: platform_user}
-form = Form.create(form_data)
-
-# Form Sections
-job_info_section_data = {"title":"Información del puesto","key":"job_info","description":"","section_order":1}
-contract_info_section_data = {"title":"Información de contrato","key":"contract_info","description":"","section_order":2}
-compensation_info_section_data = {"title":"Compensación","key":"compensation","description":"","section_order":3}
-
-job_info_section = form.form_sections.create(job_info_section_data)
-contract_info_section = form.form_sections.create(contract_info_section_data)
-compensation_info_section = form.form_sections.create(compensation_info_section_data)
-
-# Form fields for personal_info
-
-job_info_fields = [
-  {
-    display_name: "Puesto",
-    help_text: nil,
-    name: "job",
-    input_data_source: nil,
-    data_type: "string",
-    widget_attributes: {},
-    widget_type: "text",
-    required: true,
-    field_order: 1,
-    region: nil,
-    form_field_validations_attributes: [
-      {
-        name: "Puesto requerido",
-        type: "FormPresenceValidation",
-        message: "El puesto es requerido",
-        options: {},
-      }
-    ]
-  },
-  {
-    display_name: "Área",
-    help_text: nil,
-    name: "area",
-    input_data_source: "area",
-    data_type: "string",
-    widget_attributes: {},
-    widget_type: "select",
-    required: true,
-    field_order: 2,
-    region: nil,
-    form_field_validations_attributes: [
-      {
-        name: "Área requerida",
-        type: "FormPresenceValidation",
-        message: "El área es requerida",
-        options: {},
-      }
-    ]
-  },
-  {
-    display_name: "Reportar a",
-    help_text: nil,
-    name: "report_to",
-    input_data_source: "user",
-    data_type: "string",
-    widget_attributes: {},
-    widget_type: "select",
-    required: true,
-    field_order: 3,
-    region: nil,
-    form_field_validations_attributes: [
-      {
-        name: "Reportar a requerido",
-        type: "FormPresenceValidation",
-        message: "El campo Reportar a es requerido",
-        options: {},
-      }
-    ]
-  },
-  {
-    display_name: "Sede",
-    help_text: nil,
-    name: "headquarter",
-    input_data_source: "headquarter",
-    data_type: "string",
-    widget_attributes: {},
-    widget_type: "select",
-    required: true,
-    field_order: 4,
-    region: nil,
-    form_field_validations_attributes: [
-      {
-        name: "Sede requerida",
-        type: "FormPresenceValidation",
-        message: "Sede es requerida",
-        options: {},
-      }
-    ]
-  },
-  {
-    display_name: "Sindicalizado",
-    help_text: "",
-    name: "has_union",
-    input_data_source: nil,
-    data_type: "boolean",
-    widget_attributes: {
-      options: [
-        {
-          value: true,
-          label: "Sí"
-        },
-        {
-          value: false,
-          label: "No"
-        }
-      ]
-    },
-    widget_type: "radio",
-    required: true,
-    field_order: 5,
-    region: nil,
-    form_field_validations_attributes: [
-      {
-        name: "Sindicalizado requerido",
-        type: "FormPresenceValidation",
-        message: "Es requerido",
-        options: {}
-      }
-    ]
-  },
-]
-job_info_section.form_fields.create(job_info_fields)
-
-contract_info_fields = []
-contract_info_section.form_fields.create(contract_info_fields)
-
-compensation_info_fields = []
-compensation_info_section.form_fields.create(compensation_info_fields)

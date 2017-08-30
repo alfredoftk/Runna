@@ -10,6 +10,8 @@ class CreateFormFields < ActiveRecord::Migration[5.1]
       t.string :widget_type, null: false, default: 'text'
       t.boolean :required, null: false, default: false
       t.integer :field_order, null: false
+      t.json :render_if, null: true
+      t.string :depends_on, null: true
       t.references :form_section, foreign_key: true, null: false
       t.references :region, foreign_key: true, null: true
       t.integer :created_by_id, foreign_key: { references: [:platform_users, :id] }, null: true
@@ -17,5 +19,6 @@ class CreateFormFields < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
+    add_index :form_fields, [:name, :form_section_id], unique: true
   end
 end
