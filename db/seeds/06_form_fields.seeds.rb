@@ -1,6 +1,8 @@
 region = Region.find_by(key: 'MEX')
 platform_user = PlatformUser.first
 
+# --------------------------------- Add employee step 1
+
 # Form
 form_data = { title: "Información Básica", key: "basic_info", form_type: "employee", description: "", created_by: platform_user, updated_by: platform_user}
 form = Form.create(form_data)
@@ -10,11 +12,13 @@ personal_info_section_data = {"title":"Información Personal","key":"personal_in
 addittional_basic_info_section_data = {"title":"Información Básica Adicional","key":"addittional_basic_info","description":"","section_order":2}
 emergency_contact_section_data = {"title":"Contacto de Emergencia","key":"emergency_contact","description":"","section_order":3}
 preferences_section_data = {"title":"Preferencias","key":"preferences","description":"","section_order":4}
+account_details_section_data = {"title":"Detalle de cuenta","key":"account_details","description":"","section_order":5}
 
 personal_info_section = form.form_sections.create(personal_info_section_data)
 addittional_basic_info_section = form.form_sections.create(addittional_basic_info_section_data)
 emergency_contact_section = form.form_sections.create(emergency_contact_section_data)
 preferences_section = form.form_sections.create(preferences_section_data)
+account_details_section = form.form_sections.create(account_details_section_data)
 
 # Form fields for personal_info
 
@@ -255,8 +259,8 @@ addittional_basic_info_fields = [
   {
     display_name: "Nacionalidad",
     help_text: nil,
-    name: "nacionality",
-    input_data_source: "nacionality",
+    name: "nationality",
+    input_data_source: "nationality",
     data_type: "string",
     widget_attributes: {},
     widget_type: "select",
@@ -428,14 +432,21 @@ emergency_contact_info_fields = [
     display_name: "Nombre",
     help_text: nil,
     name: "emergency_contact_name",
-    input_data_source: "",
+    input_data_source: nil,
     data_type: "string",
     widget_attributes: {},
     widget_type: "text",
     required: true,
     field_order: 1,
     region: nil,
-    form_field_validations_attributes: []
+    form_field_validations_attributes: [
+      {
+        name: "Nombre requerido",
+        type: "FormPresenceValidation",
+        message: "El nombre es requerido",
+        options: {},
+      }
+    ]
   },
   {
     display_name: "Parentezco",
@@ -448,7 +459,14 @@ emergency_contact_info_fields = [
     required: true,
     field_order: 2,
     region: nil,
-    form_field_validations_attributes: []
+    form_field_validations_attributes: [
+      {
+        name: "Parentezco requerido",
+        type: "FormPresenceValidation",
+        message: "El parentezco es requerido",
+        options: {},
+      }
+    ]
   },
   {
     display_name: "Email",
@@ -461,7 +479,22 @@ emergency_contact_info_fields = [
     required: true,
     field_order: 3,
     region: nil,
-    form_field_validations_attributes: []
+    form_field_validations_attributes: [
+      {
+        name: "Email requerido",
+        type: "FormPresenceValidation",
+        message: "El Email es requerido",
+        options: {}
+      },
+      {
+        name: "Email Format",
+        type: "FormFormatValidation",
+        message: "El Email no tiene el formato correcto",
+        options: {
+          with: '/\A[^@\s]+@[^@\s]+\z/'
+        }
+      }
+    ]
   },
   {
     display_name: "Celular",
@@ -474,7 +507,14 @@ emergency_contact_info_fields = [
     required: true,
     field_order: 4,
     region: nil,
-    form_field_validations_attributes: []
+    form_field_validations_attributes: [
+      {
+        name: "Celular requerido",
+        type: "FormPresenceValidation",
+        message: "El Celular es requerido",
+        options: {}
+      }
+    ]
   }
 ]
 emergency_contact_section.form_fields.create(emergency_contact_info_fields)
@@ -597,3 +637,173 @@ preferences_info_fields = [
   }
 ]
 preferences_section.form_fields.create(preferences_info_fields)
+
+# Form fields for account_details
+
+account_details_fields = [
+  {
+    display_name: "Método de pago",
+    help_text: nil,
+    name: "payment_method",
+    input_data_source: nil,
+    data_type: "string",
+    widget_attributes: {
+      options: [
+        {
+          value: "wire_transfer",
+          label: "Transferencia bancaria"
+        },
+        {
+          value: "check",
+          label: "Cheque"
+        },
+        {
+          value: "cash",
+          label: "Efectivo"
+        }
+      ]
+    },
+    widget_type: "select",
+    required: true,
+    field_order: 1,
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Método de pago requerido",
+        type: "FormPresenceValidation",
+        message: "El método de pago es requerido",
+        options: {},
+      }
+    ]
+  },
+  {
+    display_name: "Número de cuenta",
+    help_text: nil,
+    name: "number_account",
+    input_data_source: nil,
+    data_type: "string",
+    widget_attributes: {},
+    widget_type: "text",
+    required: true,
+    field_order: 2,
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Número de cuenta requerido",
+        type: "FormPresenceValidation",
+        message: "El número de cuenta es requerido",
+        options: {},
+      }
+    ]
+  },
+  {
+    display_name: "Número interbancario",
+    help_text: nil,
+    name: "interbank_number",
+    input_data_source: nil,
+    data_type: "string",
+    widget_attributes: {},
+    widget_type: "text",
+    required: true,
+    field_order: 3,
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Número interbancario requerido",
+        type: "FormPresenceValidation",
+        message: "El número interbancario es requerido",
+        options: {},
+      }
+    ]
+  },
+  {
+    display_name: "Banco",
+    help_text: nil,
+    name: "bank",
+    input_data_source: "bank",
+    data_type: "string",
+    widget_attributes: {},
+    widget_type: "text",
+    required: true,
+    field_order: 4,
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Banco requerido",
+        type: "FormPresenceValidation",
+        message: "El banco es requerido",
+        options: {},
+      }
+    ]
+  }
+]
+account_details_section.form_fields.create(account_details_fields)
+
+
+
+# --------------------------------- Add employee step 2
+
+# Form
+form_data = { title: "Información de Empleo", key: "employment_info", form_type: "employee", description: "", created_by: platform_user, updated_by: platform_user}
+form = Form.create(form_data)
+
+# Form Sections
+job_info_section_data = {"title":"Información del puesto","key":"job_info","description":"","section_order":1}
+contract_info_section_data = {"title":"Información de contrato","key":"contract_info","description":"","section_order":2}
+compensation_info_section_data = {"title":"Compensación","key":"compensation","description":"","section_order":3}
+
+job_info_section = form.form_sections.create(job_info_section_data)
+contract_info_section = form.form_sections.create(contract_info_section_data)
+compensation_info_section = form.form_sections.create(compensation_info_section_data)
+
+# Form fields for personal_info
+
+job_info_fields = [
+  {
+    display_name: "Puesto",
+    help_text: nil,
+    name: "job",
+    input_data_source: nil,
+    data_type: "string",
+    widget_attributes: {},
+    widget_type: "text",
+    required: true,
+    field_order: 1,
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Puesto requerido",
+        type: "FormPresenceValidation",
+        message: "El puesto es requerido",
+        options: {},
+      }
+    ]
+  },
+  {
+    display_name: "Área",
+    help_text: nil,
+    name: "area",
+    input_data_source: "area",
+    data_type: "string",
+    widget_attributes: {},
+    widget_type: "select",
+    required: true,
+    field_order: 2,
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Área requerida",
+        type: "FormPresenceValidation",
+        message: "El área es requerida",
+        options: {},
+      }
+    ]
+  },
+]
+job_info_section.form_fields.create(job_info_fields)
+
+contract_info_fields = []
+contract_info_section.form_fields.create(contract_info_fields)
+
+compensation_info_fields = []
+compensation_info_section.form_fields.create(compensation_info_fields)

@@ -10,10 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170828165544) do
+ActiveRecord::Schema.define(version: 20170830152005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "areas", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_areas_on_company_id"
+  end
+
+  create_table "banks", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "region_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_banks_on_region_id"
+  end
 
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
@@ -49,11 +65,17 @@ ActiveRecord::Schema.define(version: 20170828165544) do
     t.index ["user_id"], name: "index_company_users_on_user_id"
   end
 
+  create_table "foods", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "form_field_validations", force: :cascade do |t|
     t.string "name", null: false
     t.string "type", null: false
     t.string "message", null: false
-    t.json "options"
+    t.json "options", default: {}, null: false
     t.bigint "form_field_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -66,8 +88,8 @@ ActiveRecord::Schema.define(version: 20170828165544) do
     t.string "name", null: false
     t.string "input_data_source"
     t.string "data_type", null: false
-    t.json "widget_attributes"
-    t.string "widget_type"
+    t.json "widget_attributes", default: {}, null: false
+    t.string "widget_type", default: "text", null: false
     t.boolean "required", default: false, null: false
     t.integer "field_order", null: false
     t.bigint "form_section_id", null: false
@@ -104,6 +126,20 @@ ActiveRecord::Schema.define(version: 20170828165544) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_forms_on_key", unique: true
+  end
+
+  create_table "headquarters", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_headquarters_on_company_id"
+  end
+
+  create_table "nationalities", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "platform_users", force: :cascade do |t|
@@ -148,6 +184,8 @@ ActiveRecord::Schema.define(version: 20170828165544) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "areas", "companies"
+  add_foreign_key "banks", "regions"
   add_foreign_key "companies", "regions"
   add_foreign_key "company_form_fields", "companies"
   add_foreign_key "company_form_fields", "form_fields"
@@ -157,5 +195,6 @@ ActiveRecord::Schema.define(version: 20170828165544) do
   add_foreign_key "form_fields", "form_sections"
   add_foreign_key "form_fields", "regions"
   add_foreign_key "form_sections", "forms"
+  add_foreign_key "headquarters", "companies"
   add_foreign_key "sessions", "company_users"
 end
