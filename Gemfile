@@ -66,6 +66,9 @@ group :development do
   gem "binding_of_caller"
   # Pry on Rails
   gem 'pry-rails'
+  # Deployment gem
+  gem 'mina'
+  gem 'mina-puma'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
