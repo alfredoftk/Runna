@@ -1,9 +1,10 @@
-WorkShift.create name: "Diurna", region: Region.first
-WorkShift.create name: "Nocturna", region: Region.first
-WorkShift.create name: "Mixta", region: Region.first
-WorkShift.create name: "Por hora", region: Region.first
-WorkShift.create name: "Reducida", region: Region.first
-WorkShift.create name: "Continuada", region: Region.first
-WorkShift.create name: "Partida", region: Region.first
-WorkShift.create name: "Por turnos", region: Region.first
-WorkShift.create name: "Otra Jornada", region: Region.first
+region = Region.first
+WorkShift.create name: "Diurna", region: region
+WorkShift.create name: "Nocturna", region: region
+WorkShift.create name: "Mixta", region: region
+WorkShift.create name: "Por hora", region: region
+WorkShift.create name: "Reducida", region: region
+WorkShift.create name: "Continuada", region: region
+WorkShift.create name: "Partida", region: region
+WorkShift.create name: "Por turnos", region: region
+WorkShift.create name: "Otra Jornada", region: region
