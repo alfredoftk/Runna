@@ -4,6 +4,7 @@ class CreateBenefitDetails < ActiveRecord::Migration[5.1]
       t.string :name, null: false
       t.string :value, null: false
       t.references :benefit, foreign_key: true
+      t.integer :owner_company_id, foreign_key: { references: [:companies, :id] }, null: true
 
       t.timestamps
     end

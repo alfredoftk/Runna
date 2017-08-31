@@ -8,6 +8,12 @@ class Company < ApplicationRecord
   has_many :areas
   has_many :company_benefits
   has_many :benefits, through: :company_benefits
+  has_many :contract_type_companies
+  has_many :contract_types, through: :contract_type_companies
+  has_many :employee_type_companies
+  has_many :employee_types, through: :employee_type_companies
+  has_many :work_shift_company
+  has_many :work_shifts, through: :work_shift_company
 
   validates :name, :subdomain, :custom_fqdn, presence: true
   validates :subdomain, uniqueness: true

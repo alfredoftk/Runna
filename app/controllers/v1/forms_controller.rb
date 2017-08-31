@@ -13,13 +13,13 @@ class V1::FormsController < ApiV1Controller
 
   def show
     @company_form_fields = current_company_user.company.form_fields_by_form_id(@form.id)
-    render json: { form: @form, company_form_fields: @company_form_fields }, serializer: CompanyFormFieldsSerializer
+    render json: { form: @form, company_form_fields: @company_form_fields }, serializer: CompanyFormFieldsSerializer, scope: current_company_user
   end
 
   private
 
   def set_form
-  	@form = Form.find_by key: params[:key]
+    @form = Form.find_by key: params[:key]
     response_error_json_format(ErrorResponse.record_not_found('form')) if @form.nil?
   end
 

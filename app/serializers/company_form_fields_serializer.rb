@@ -40,7 +40,7 @@ class CompanyFormFieldsSerializer < ActiveModel::Serializer
   end
 
   def serialized_form_fields form_fields
-    form_fields.map{ |form_field| FormFieldSerializer.new(form_field, root: false) }
+    form_fields.map{ |form_field| FormFieldSerializer.new(form_field, scope: scope, root: false) }
   end
 
 end
