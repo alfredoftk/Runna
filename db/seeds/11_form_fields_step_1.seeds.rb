@@ -107,9 +107,9 @@ personal_info_fields = [
     region: nil,
     form_field_validations_attributes: [
       {
-        name: "Sindicalizado requerido",
+        name: "Género requerido",
         type: "FormPresenceValidation",
-        message: "Es requerido",
+        message: "El género es requerido",
         options: {}
       }
     ]

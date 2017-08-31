@@ -14,13 +14,10 @@ class FormFieldSerializer < ActiveModel::Serializer
       if entity = Object.const_get(object.input_data_source.titleize.delete(' ')) and entity.is_a?(Class)
         if entity.has_attribute?("region_id")
           entity = entity.where region_id: scope.company.region_id
-          widget_attributes[:options] = entity.all.map{ |obj| { "value": obj.id, "label": obj.name } }
         elsif entity.has_attribute?("company_id")
           entity = entity.where company_id: scope.company.id
-          widget_attributes[:options] = entity.all.map{ |obj| { "value": obj.id, "label": obj.name } }
-        else
-          widget_attributes[:options] = entity.all.map{ |obj| { "value": obj.id, "label": obj.name } }
         end
+        widget_attributes[:options] = entity.all.map{ |obj| { "value": obj.id, "label": obj.name } }
       end
     rescue Exception => e
       Rails.logger.error "#{e}"
