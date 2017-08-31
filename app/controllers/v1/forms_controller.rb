@@ -19,7 +19,7 @@ class V1::FormsController < ApiV1Controller
   private
 
   def set_form
-  	@form = Form.find_by key: params[:key]
+    @form = Form.find_by key: params[:key]
     response_error_json_format(ErrorResponse.record_not_found('form')) if @form.nil?
   end
 

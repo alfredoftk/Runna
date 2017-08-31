@@ -63,6 +63,15 @@ ActiveRecord::Schema.define(version: 20170831145642) do
     t.index ["subdomain"], name: "index_companies_on_subdomain", unique: true
   end
 
+  create_table "company_benefit_details", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "value", null: false
+    t.bigint "company_benefit_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_benefit_id"], name: "index_company_benefit_details_on_company_benefit_id"
+  end
+
   create_table "company_benefits", force: :cascade do |t|
     t.bigint "benefit_id"
     t.bigint "company_id"
@@ -277,6 +286,7 @@ ActiveRecord::Schema.define(version: 20170831145642) do
   add_foreign_key "benefit_details", "benefits"
   add_foreign_key "benefits", "regions"
   add_foreign_key "companies", "regions"
+  add_foreign_key "company_benefit_details", "company_benefits"
   add_foreign_key "company_benefits", "benefits"
   add_foreign_key "company_benefits", "companies"
   add_foreign_key "company_form_fields", "companies"
