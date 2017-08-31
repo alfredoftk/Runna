@@ -84,6 +84,37 @@ personal_info_fields = [
     ]
   },
   {
+    display_name: "Género",
+    help_text: "",
+    name: "gender",
+    input_data_source: nil,
+    data_type: "string",
+    widget_attributes: {
+      options: [
+        {
+          value: "male",
+          label: "Masculino"
+        },
+        {
+          value: "female",
+          label: "Femenino"
+        }
+      ]
+    },
+    widget_type: "radio",
+    required: true,
+    field_order: 4,
+    region: nil,
+    form_field_validations_attributes: [
+      {
+        name: "Sindicalizado requerido",
+        type: "FormPresenceValidation",
+        message: "Es requerido",
+        options: {}
+      }
+    ]
+  },
+  {
     display_name: "ID de empleado",
     help_text: "",
     name: "employee_identifier",
@@ -92,7 +123,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "text",
     required: false,
-    field_order: 4,
+    field_order: 5,
     region: nil,
     form_field_validations_attributes: []
   },
@@ -105,7 +136,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "text",
     required: true,
-    field_order: 5,
+    field_order: 6,
     region: region,
     form_field_validations_attributes:[
       {
@@ -141,7 +172,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "text",
     required: true,
-    field_order: 6,
+    field_order: 7,
     region: region,
     form_field_validations_attributes: [
       {
@@ -169,7 +200,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "text",
     required: true,
-    field_order: 7,
+    field_order: 8,
     region: region,
     form_field_validations_attributes: [
       {
@@ -189,7 +220,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "email",
     required: true,
-    field_order: 8,
+    field_order: 9,
     region: nil,
     form_field_validations_attributes: [
       {
@@ -217,7 +248,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "email",
     required: false,
-    field_order: 9,
+    field_order: 10,
     region: nil,
     form_field_validations_attributes: [
       {
@@ -246,7 +277,7 @@ personal_info_fields = [
     },
     widget_type: "checkbox",
     required: false,
-    field_order: 10,
+    field_order: 11,
     region: nil,
     form_field_validations_attributes: []
   }
@@ -740,4 +771,3 @@ account_details_fields = [
   }
 ]
 account_details_fields = account_details_section.form_fields.create(account_details_fields)
-

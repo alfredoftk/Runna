@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170830171405) do
+ActiveRecord::Schema.define(version: 20170831145642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20170830171405) do
     t.string "name", null: false
     t.string "value", null: false
     t.bigint "benefit_id"
+    t.integer "owner_company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["benefit_id"], name: "index_benefit_details_on_benefit_id"
@@ -43,6 +44,7 @@ ActiveRecord::Schema.define(version: 20170830171405) do
   create_table "benefits", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "region_id"
+    t.integer "owner_company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["region_id"], name: "index_benefits_on_region_id"
@@ -61,20 +63,12 @@ ActiveRecord::Schema.define(version: 20170830171405) do
     t.index ["subdomain"], name: "index_companies_on_subdomain", unique: true
   end
 
-  create_table "company_benefit_details", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "value", null: false
-    t.bigint "company_benefit_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["company_benefit_id"], name: "index_company_benefit_details_on_company_benefit_id"
-  end
-
   create_table "company_benefits", force: :cascade do |t|
-    t.string "name", null: false
+    t.bigint "benefit_id"
     t.bigint "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["benefit_id"], name: "index_company_benefits_on_benefit_id"
     t.index ["company_id"], name: "index_company_benefits_on_company_id"
   end
 
@@ -97,6 +91,44 @@ ActiveRecord::Schema.define(version: 20170830171405) do
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_company_users_on_company_id"
     t.index ["user_id"], name: "index_company_users_on_user_id"
+  end
+
+  create_table "contract_type_companies", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "contract_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_contract_type_companies_on_company_id"
+    t.index ["contract_type_id"], name: "index_contract_type_companies_on_contract_type_id"
+  end
+
+  create_table "contract_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "region_id"
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_contract_types_on_company_id"
+    t.index ["region_id"], name: "index_contract_types_on_region_id"
+  end
+
+  create_table "employee_type_companies", force: :cascade do |t|
+    t.bigint "employee_type_id"
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_employee_type_companies_on_company_id"
+    t.index ["employee_type_id"], name: "index_employee_type_companies_on_employee_type_id"
+  end
+
+  create_table "employee_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "region_id"
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_employee_types_on_company_id"
+    t.index ["region_id"], name: "index_employee_types_on_region_id"
   end
 
   create_table "foods", force: :cascade do |t|
@@ -221,21 +253,52 @@ ActiveRecord::Schema.define(version: 20170830171405) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "work_shift_companies", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "work_shift_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_work_shift_companies_on_company_id"
+    t.index ["work_shift_id"], name: "index_work_shift_companies_on_work_shift_id"
+  end
+
+  create_table "work_shifts", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "region_id"
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_work_shifts_on_company_id"
+    t.index ["region_id"], name: "index_work_shifts_on_region_id"
+  end
+
   add_foreign_key "areas", "companies"
   add_foreign_key "banks", "regions"
   add_foreign_key "benefit_details", "benefits"
   add_foreign_key "benefits", "regions"
   add_foreign_key "companies", "regions"
-  add_foreign_key "company_benefit_details", "company_benefits"
+  add_foreign_key "company_benefits", "benefits"
   add_foreign_key "company_benefits", "companies"
   add_foreign_key "company_form_fields", "companies"
   add_foreign_key "company_form_fields", "form_fields"
   add_foreign_key "company_users", "companies"
   add_foreign_key "company_users", "users"
+  add_foreign_key "contract_type_companies", "companies"
+  add_foreign_key "contract_type_companies", "contract_types"
+  add_foreign_key "contract_types", "companies"
+  add_foreign_key "contract_types", "regions"
+  add_foreign_key "employee_type_companies", "companies"
+  add_foreign_key "employee_type_companies", "employee_types"
+  add_foreign_key "employee_types", "companies"
+  add_foreign_key "employee_types", "regions"
   add_foreign_key "form_field_validations", "form_fields"
   add_foreign_key "form_fields", "form_sections"
   add_foreign_key "form_fields", "regions"
   add_foreign_key "form_sections", "forms"
   add_foreign_key "headquarters", "companies"
   add_foreign_key "sessions", "company_users"
+  add_foreign_key "work_shift_companies", "companies"
+  add_foreign_key "work_shift_companies", "work_shifts"
+  add_foreign_key "work_shifts", "companies"
+  add_foreign_key "work_shifts", "regions"
 end

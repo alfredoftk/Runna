@@ -13,7 +13,7 @@ class V1::FormsController < ApiV1Controller
 
   def show
     @company_form_fields = current_company_user.company.form_fields_by_form_id(@form.id)
-    render json: { form: @form, company_form_fields: @company_form_fields }, serializer: CompanyFormFieldsSerializer
+    render json: { form: @form, company_form_fields: @company_form_fields }, serializer: CompanyFormFieldsSerializer, scope: current_company_user
   end
 
   private

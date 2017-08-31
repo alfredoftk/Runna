@@ -1,5 +1,5 @@
 module Tokenable
-  
+
   extend ActiveSupport::Concern
 
   def generate_token

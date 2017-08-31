@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   include ApiControllerHelper
   include APIAuthenticable
 
+  serialization_scope :view_context
+
   def render_unknown_error error
     response_error_json_format ErrorResponse.unknown_error(error)
   end
