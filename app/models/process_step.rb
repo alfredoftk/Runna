@@ -1,14 +1,7 @@
-class Form < ApplicationRecord
-
+class ProcessStep < ApplicationRecord
   belongs_to :created_by, foreign_key: :created_by_id, class_name: "PlatformUser"
   belongs_to :updated_by, foreign_key: :updated_by_id, class_name: "PlatformUser"
-  has_many :form_sections
-  has_many :process_company_fields
-
-  enum form_type: { employee: "employee" }
-
-  def to_param
-    key
-  end
-
+  belongs_to :form
+  has_many :employee_processes
+  enum status: { inactive: 0, active: 1  }
 end

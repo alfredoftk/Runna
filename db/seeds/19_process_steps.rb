@@ -1,0 +1,2 @@
+ProcessStep.create name: "Paso 1", description: "Proceso correspondiente al formulario 1", status: 1, form: Form.first
+ProcessStep.create name: "Paso 2", description: "Proceso correspondiente al formulario 2", status: 1, form: Form.find(2)

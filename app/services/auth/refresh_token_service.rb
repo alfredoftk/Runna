@@ -10,11 +10,11 @@ module Auth
     end
 
     def refresh
-      if old_session and old_session.refresh_token == refresh_token
-        old_session.expire!
-        @session = old_session.user.sessions.create
+      if @old_session and @old_session.refresh_token == @refresh_token
+        @old_session.expire!
+        @session = @old_session.company_user.sessions.create
       else
-        @error_response = ErrorResponse.new(status_code: :unauthorized, title: "Could not refresh token", reasons: { base: "Access token or refresh token is invalid" }, description: "Enter a valid access and refresh token")
+        @error_response = ErrorResponse.new(status_code: :unauthorized, title: 'Could not refresh token', reasons: { base: "Access token or refresh token is invalid" }, description: "Enter a valid access and refresh token")
       end
       return @session.present?
     end
