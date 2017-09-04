@@ -10,22 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170831145642) do
+ActiveRecord::Schema.define(version: 20170904203921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "areas", force: :cascade do |t|
+  create_table "area_details", force: :cascade do |t|
     t.string "name", null: false
-    t.bigint "company_id"
+    t.string "value", null: false
+    t.bigint "area_id"
+    t.integer "company_owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_areas_on_company_id"
+    t.index ["area_id"], name: "index_area_details_on_area_id"
+  end
+
+  create_table "areas", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "region_id"
+    t.integer "company_owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_areas_on_region_id"
   end
 
   create_table "banks", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "region_id"
+    t.integer "company_owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["region_id"], name: "index_banks_on_region_id"
@@ -35,7 +47,7 @@ ActiveRecord::Schema.define(version: 20170831145642) do
     t.string "name", null: false
     t.string "value", null: false
     t.bigint "benefit_id"
-    t.integer "owner_company_id"
+    t.integer "company_owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["benefit_id"], name: "index_benefit_details_on_benefit_id"
@@ -44,7 +56,7 @@ ActiveRecord::Schema.define(version: 20170831145642) do
   create_table "benefits", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "region_id"
-    t.integer "owner_company_id"
+    t.integer "company_owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["region_id"], name: "index_benefits_on_region_id"
@@ -63,13 +75,22 @@ ActiveRecord::Schema.define(version: 20170831145642) do
     t.index ["subdomain"], name: "index_companies_on_subdomain", unique: true
   end
 
-  create_table "company_benefit_details", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "value", null: false
-    t.bigint "company_benefit_id"
+  create_table "company_areas", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "area_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_benefit_id"], name: "index_company_benefit_details_on_company_benefit_id"
+    t.index ["area_id"], name: "index_company_areas_on_area_id"
+    t.index ["company_id"], name: "index_company_areas_on_company_id"
+  end
+
+  create_table "company_banks", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "bank_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bank_id"], name: "index_company_banks_on_bank_id"
+    t.index ["company_id"], name: "index_company_banks_on_company_id"
   end
 
   create_table "company_benefits", force: :cascade do |t|
@@ -81,6 +102,24 @@ ActiveRecord::Schema.define(version: 20170831145642) do
     t.index ["company_id"], name: "index_company_benefits_on_company_id"
   end
 
+  create_table "company_contract_types", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "contract_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_contract_types_on_company_id"
+    t.index ["contract_type_id"], name: "index_company_contract_types_on_contract_type_id"
+  end
+
+  create_table "company_employee_types", force: :cascade do |t|
+    t.bigint "employee_type_id"
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_employee_types_on_company_id"
+    t.index ["employee_type_id"], name: "index_company_employee_types_on_employee_type_id"
+  end
+
   create_table "company_form_fields", force: :cascade do |t|
     t.bigint "company_id", null: false
     t.bigint "form_field_id", null: false
@@ -88,6 +127,42 @@ ActiveRecord::Schema.define(version: 20170831145642) do
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_company_form_fields_on_company_id"
     t.index ["form_field_id"], name: "index_company_form_fields_on_form_field_id"
+  end
+
+  create_table "company_headquarters", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "headquarter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_headquarters_on_company_id"
+    t.index ["headquarter_id"], name: "index_company_headquarters_on_headquarter_id"
+  end
+
+  create_table "company_payroll_frequencies", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "payroll_frequency_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_payroll_frequencies_on_company_id"
+    t.index ["payroll_frequency_id"], name: "index_company_payroll_frequencies_on_payroll_frequency_id"
+  end
+
+  create_table "company_payroll_types", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "payroll_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_payroll_types_on_company_id"
+    t.index ["payroll_type_id"], name: "index_company_payroll_types_on_payroll_type_id"
+  end
+
+  create_table "company_salary_types", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "salary_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_salary_types_on_company_id"
+    t.index ["salary_type_id"], name: "index_company_salary_types_on_salary_type_id"
   end
 
   create_table "company_users", force: :cascade do |t|
@@ -102,41 +177,50 @@ ActiveRecord::Schema.define(version: 20170831145642) do
     t.index ["user_id"], name: "index_company_users_on_user_id"
   end
 
-  create_table "contract_type_companies", force: :cascade do |t|
+  create_table "company_work_shifts", force: :cascade do |t|
     t.bigint "company_id"
-    t.bigint "contract_type_id"
+    t.bigint "work_shift_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_contract_type_companies_on_company_id"
-    t.index ["contract_type_id"], name: "index_contract_type_companies_on_contract_type_id"
+    t.index ["company_id"], name: "index_company_work_shifts_on_company_id"
+    t.index ["work_shift_id"], name: "index_company_work_shifts_on_work_shift_id"
+  end
+
+  create_table "contract_type_details", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "value", null: false
+    t.bigint "contract_type_id"
+    t.integer "company_owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contract_type_id"], name: "index_contract_type_details_on_contract_type_id"
   end
 
   create_table "contract_types", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "region_id"
-    t.bigint "company_id"
+    t.integer "company_owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_contract_types_on_company_id"
     t.index ["region_id"], name: "index_contract_types_on_region_id"
   end
 
-  create_table "employee_type_companies", force: :cascade do |t|
+  create_table "employee_type_details", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "value", null: false
     t.bigint "employee_type_id"
-    t.bigint "company_id"
+    t.integer "company_owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_employee_type_companies_on_company_id"
-    t.index ["employee_type_id"], name: "index_employee_type_companies_on_employee_type_id"
+    t.index ["employee_type_id"], name: "index_employee_type_details_on_employee_type_id"
   end
 
   create_table "employee_types", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "region_id"
-    t.bigint "company_id"
+    t.integer "company_owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_employee_types_on_company_id"
     t.index ["region_id"], name: "index_employee_types_on_region_id"
   end
 
@@ -206,18 +290,67 @@ ActiveRecord::Schema.define(version: 20170831145642) do
     t.index ["key"], name: "index_forms_on_key", unique: true
   end
 
-  create_table "headquarters", force: :cascade do |t|
+  create_table "headquarter_details", force: :cascade do |t|
     t.string "name", null: false
-    t.bigint "company_id"
+    t.string "value", null: false
+    t.bigint "headquarter_id"
+    t.integer "company_owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_headquarters_on_company_id"
+    t.index ["headquarter_id"], name: "index_headquarter_details_on_headquarter_id"
+  end
+
+  create_table "headquarters", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "region_id"
+    t.integer "company_owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_headquarters_on_region_id"
   end
 
   create_table "nationalities", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "payroll_frequencies", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "region_id"
+    t.integer "company_owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_payroll_frequencies_on_region_id"
+  end
+
+  create_table "payroll_frequency_details", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "value", null: false
+    t.bigint "payroll_frequency_id"
+    t.integer "company_owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["payroll_frequency_id"], name: "index_payroll_frequency_details_on_payroll_frequency_id"
+  end
+
+  create_table "payroll_type_details", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "value", null: false
+    t.bigint "payroll_type_id"
+    t.integer "company_owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["payroll_type_id"], name: "index_payroll_type_details_on_payroll_type_id"
+  end
+
+  create_table "payroll_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "region_id"
+    t.integer "company_owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_payroll_types_on_region_id"
   end
 
   create_table "platform_users", force: :cascade do |t|
@@ -250,6 +383,25 @@ ActiveRecord::Schema.define(version: 20170831145642) do
     t.index ["name"], name: "index_regions_on_name", unique: true
   end
 
+  create_table "salary_type_details", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "value", null: false
+    t.bigint "salary_type_id"
+    t.integer "company_owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["salary_type_id"], name: "index_salary_type_details_on_salary_type_id"
+  end
+
+  create_table "salary_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "region_id"
+    t.integer "company_owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_salary_types_on_region_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.string "access_token", null: false
     t.string "refresh_token", null: false
@@ -274,53 +426,72 @@ ActiveRecord::Schema.define(version: 20170831145642) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  create_table "work_shift_companies", force: :cascade do |t|
-    t.bigint "company_id"
+  create_table "work_shift_details", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "value", null: false
     t.bigint "work_shift_id"
+    t.integer "company_owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_work_shift_companies_on_company_id"
-    t.index ["work_shift_id"], name: "index_work_shift_companies_on_work_shift_id"
+    t.index ["work_shift_id"], name: "index_work_shift_details_on_work_shift_id"
   end
 
   create_table "work_shifts", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "region_id"
-    t.bigint "company_id"
+    t.integer "company_owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_work_shifts_on_company_id"
     t.index ["region_id"], name: "index_work_shifts_on_region_id"
   end
 
-  add_foreign_key "areas", "companies"
+  add_foreign_key "area_details", "areas"
+  add_foreign_key "areas", "regions"
   add_foreign_key "banks", "regions"
   add_foreign_key "benefit_details", "benefits"
   add_foreign_key "benefits", "regions"
   add_foreign_key "companies", "regions"
-  add_foreign_key "company_benefit_details", "company_benefits"
+  add_foreign_key "company_areas", "areas"
+  add_foreign_key "company_areas", "companies"
+  add_foreign_key "company_banks", "banks"
+  add_foreign_key "company_banks", "companies"
   add_foreign_key "company_benefits", "benefits"
   add_foreign_key "company_benefits", "companies"
+  add_foreign_key "company_contract_types", "companies"
+  add_foreign_key "company_contract_types", "contract_types"
+  add_foreign_key "company_employee_types", "companies"
+  add_foreign_key "company_employee_types", "employee_types"
   add_foreign_key "company_form_fields", "companies"
   add_foreign_key "company_form_fields", "form_fields"
+  add_foreign_key "company_headquarters", "companies"
+  add_foreign_key "company_headquarters", "headquarters"
+  add_foreign_key "company_payroll_frequencies", "companies"
+  add_foreign_key "company_payroll_frequencies", "payroll_frequencies"
+  add_foreign_key "company_payroll_types", "companies"
+  add_foreign_key "company_payroll_types", "payroll_types"
+  add_foreign_key "company_salary_types", "companies"
+  add_foreign_key "company_salary_types", "salary_types"
   add_foreign_key "company_users", "companies"
   add_foreign_key "company_users", "users"
-  add_foreign_key "contract_type_companies", "companies"
-  add_foreign_key "contract_type_companies", "contract_types"
-  add_foreign_key "contract_types", "companies"
+  add_foreign_key "company_work_shifts", "companies"
+  add_foreign_key "company_work_shifts", "work_shifts"
+  add_foreign_key "contract_type_details", "contract_types"
   add_foreign_key "contract_types", "regions"
-  add_foreign_key "employee_type_companies", "companies"
-  add_foreign_key "employee_type_companies", "employee_types"
-  add_foreign_key "employee_types", "companies"
+  add_foreign_key "employee_type_details", "employee_types"
   add_foreign_key "employee_types", "regions"
   add_foreign_key "form_field_validations", "form_fields"
   add_foreign_key "form_fields", "form_sections"
   add_foreign_key "form_fields", "regions"
   add_foreign_key "form_sections", "forms"
-  add_foreign_key "headquarters", "companies"
+  add_foreign_key "headquarter_details", "headquarters"
+  add_foreign_key "headquarters", "regions"
+  add_foreign_key "payroll_frequencies", "regions"
+  add_foreign_key "payroll_frequency_details", "payroll_frequencies"
+  add_foreign_key "payroll_type_details", "payroll_types"
+  add_foreign_key "payroll_types", "regions"
+  add_foreign_key "salary_type_details", "salary_types"
+  add_foreign_key "salary_types", "regions"
   add_foreign_key "sessions", "company_users"
-  add_foreign_key "work_shift_companies", "companies"
-  add_foreign_key "work_shift_companies", "work_shifts"
-  add_foreign_key "work_shifts", "companies"
+  add_foreign_key "work_shift_details", "work_shifts"
   add_foreign_key "work_shifts", "regions"
 end

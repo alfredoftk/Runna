@@ -5,15 +5,24 @@ class Company < ApplicationRecord
   belongs_to :updated_by, foreign_key: :updated_by_id, class_name: "User"
   has_many :company_form_fields
   has_many :form_fields, through: :company_form_fields
-  has_many :areas
+  has_many :company_areas
+  has_many :areas, through: :company_areas
   has_many :company_benefits
   has_many :benefits, through: :company_benefits
-  has_many :contract_type_companies
-  has_many :contract_types, through: :contract_type_companies
-  has_many :employee_type_companies
-  has_many :employee_types, through: :employee_type_companies
-  has_many :work_shift_company
-  has_many :work_shifts, through: :work_shift_company
+  has_many :company_contract_types
+  has_many :contract_types, through: :company_contract_types
+  has_many :company_employee_types
+  has_many :employee_types, through: :company_employee_types
+  has_many :company_work_shift
+  has_many :work_shifts, through: :company_work_shift
+  has_many :company_salary_types
+  has_many :salary_types, through: :company_salary_types
+  has_many :company_payroll_frequencies
+  has_many :payroll_frequencies, through: :company_payroll_frequencies
+  has_many :company_payroll_types
+  has_many :payroll_types, through: :company_payroll_types
+  has_many :company_banks
+  has_many :banks, through: :company_banks
 
   validates :name, :subdomain, :custom_fqdn, presence: true
   validates :subdomain, uniqueness: true

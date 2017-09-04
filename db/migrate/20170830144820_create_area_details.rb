@@ -1,8 +1,9 @@
-class CreateWorkShifts < ActiveRecord::Migration[5.1]
+class CreateAreaDetails < ActiveRecord::Migration[5.1]
   def change
-    create_table :work_shifts do |t|
+    create_table :area_details do |t|
       t.string :name, null: false
-      t.references :region, foreign_key: true
+      t.string :value, null: false
+      t.references :area, foreign_key: true
       t.integer :company_owner_id, foreign_key: { references: [:companies, :id] }, null: true
 
       t.timestamps

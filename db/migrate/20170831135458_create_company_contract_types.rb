@@ -1,6 +1,6 @@
-class CreateContractTypeCompanies < ActiveRecord::Migration[5.1]
+class CreateCompanyContractTypes < ActiveRecord::Migration[5.1]
   def change
-    create_table :contract_type_companies do |t|
+    create_table :company_contract_types do |t|
       t.references :company, foreign_key: true
       t.references :contract_type, foreign_key: true
 
