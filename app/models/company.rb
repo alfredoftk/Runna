@@ -30,6 +30,7 @@ class Company < ApplicationRecord
   validates :subdomain, uniqueness: true
 
   def available_entity_fetcher entity
+    entity = entity.underscore.pluralize
     self.send(entity).where("#{entity}.region_id = ? OR #{entity}.region_id IS NULL", self.region.id).where("#{entity}.company_owner_id = ? OR #{entity}.company_owner_id IS NULL", self.id)
   end
 

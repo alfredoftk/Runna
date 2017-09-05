@@ -2,8 +2,8 @@ class Nationality < ApplicationRecord
 
   self.table_name = 'countries'
 
-  def self.default_scope
-  	select(:id, :nationality)
+  def name
+    nationality
   end
 
 end
