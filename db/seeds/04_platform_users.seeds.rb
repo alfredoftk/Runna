@@ -1,1 +1,1 @@
-PlatformUser.create! description: "PlatformUser 1"
+PlatformUser.create! email: "superadmin@runahr.com", description: "PlatformUser 1", password: "runahr"
