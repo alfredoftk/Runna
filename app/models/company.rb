@@ -7,6 +7,8 @@ class Company < ApplicationRecord
   has_many :form_fields, through: :company_form_fields
   has_many :company_areas
   has_many :areas, through: :company_areas
+  has_many :company_headquarters
+  has_many :headquarters, through: :company_headquarters
   has_many :company_benefits
   has_many :benefits, through: :company_benefits
   has_many :company_contract_types
@@ -26,6 +28,10 @@ class Company < ApplicationRecord
 
   validates :name, :subdomain, :custom_fqdn, presence: true
   validates :subdomain, uniqueness: true
+
+  def available_entity_fetcher entity
+    self.send(entity).where("#{entity}.region_id = ? OR #{entity}.region_id IS NULL", self.region.id).where("#{entity}.company_owner_id = ? OR #{entity}.company_owner_id IS NULL", self.id)
+  end
 
   def form_fields_by_form_id form_id
     self.form_fields.form_fields_by_form_id form_id

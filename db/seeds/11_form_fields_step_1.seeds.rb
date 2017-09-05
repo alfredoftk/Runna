@@ -756,7 +756,7 @@ account_details_fields = [
     input_data_source: "bank",
     data_type: "string",
     widget_attributes: {},
-    widget_type: "text",
+    widget_type: "select",
     required: true,
     field_order: 4,
     region: nil,
