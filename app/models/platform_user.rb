@@ -1,6 +1,6 @@
 class PlatformUser < ApplicationRecord
 
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :validatable
 
   validates :description, presence: true
 
