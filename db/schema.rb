@@ -205,6 +205,13 @@ ActiveRecord::Schema.define(version: 20170904203921) do
     t.index ["region_id"], name: "index_contract_types_on_region_id"
   end
 
+  create_table "countries", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "nationality", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "employee_type_details", force: :cascade do |t|
     t.string "name", null: false
     t.string "value", null: false
@@ -302,17 +309,14 @@ ActiveRecord::Schema.define(version: 20170904203921) do
 
   create_table "headquarters", force: :cascade do |t|
     t.string "name", null: false
+    t.string "phone", null: false
     t.bigint "region_id"
+    t.bigint "country_id"
     t.integer "company_owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_headquarters_on_country_id"
     t.index ["region_id"], name: "index_headquarters_on_region_id"
-  end
-
-  create_table "nationalities", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "payroll_frequencies", force: :cascade do |t|
@@ -484,6 +488,7 @@ ActiveRecord::Schema.define(version: 20170904203921) do
   add_foreign_key "form_fields", "regions"
   add_foreign_key "form_sections", "forms"
   add_foreign_key "headquarter_details", "headquarters"
+  add_foreign_key "headquarters", "countries"
   add_foreign_key "headquarters", "regions"
   add_foreign_key "payroll_frequencies", "regions"
   add_foreign_key "payroll_frequency_details", "payroll_frequencies"

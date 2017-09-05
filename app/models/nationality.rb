@@ -1,5 +1,9 @@
 class Nationality < ApplicationRecord
 
-  validates :name, presence: true
+  self.table_name = 'countries'
+
+  def self.default_scope
+  	select(:id, :nationality)
+  end
 
 end
