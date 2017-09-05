@@ -18,4 +18,8 @@ class ApplicationController < ActionController::Base
     response_error_json_format ErrorResponse.not_found_error(error)
   end
 
+  def after_sign_out_path_for(resource)
+    new_platform_user_session_path
+  end
+
 end

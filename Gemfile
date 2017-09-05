@@ -35,6 +35,9 @@ gem 'seedbank', '~> 0.4.0'
 # RailsAdmin is a Rails engine that provides an easy-to-use interface for managing your data.
 gem 'rails_admin', '~> 1.2'
 
+# Flexible authentication solution for Rails with Warden
+gem 'devise', '~> 4.3'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 
