@@ -3,5 +3,5 @@ class ProcessStep < ApplicationRecord
   belongs_to :updated_by, foreign_key: :updated_by_id, class_name: "PlatformUser"
   belongs_to :form
   has_many :employee_processes
-  enum status: { inactive: 0, active: 1  }
+  enum status: { inactive: 'inactive', active: 'active'  }
 end

@@ -19,8 +19,8 @@ class Company < ApplicationRecord
   validates :name, :subdomain, :custom_fqdn, presence: true
   validates :subdomain, uniqueness: true
 
-  def form_fields_by_form_id form_id
-    self.form_fields.form_fields_by_form_id form_id
+  def form_fields_by_form_id(form_id)
+    self.form_fields.form_fields_by_form_id(form_id)
   end
 
 end

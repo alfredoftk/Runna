@@ -12,6 +12,17 @@ Rails.application.routes.draw do
       end
     end
     resources :forms, only: [:index, :show], param: :key
-  end
 
+    resources :processes, only: [:create, :continue_later], param: :key do
+      member do
+        post :create
+        post :continue_later
+      end
+    end
+
+    resources :processes, only: [:update] do
+    end
+
+
+  end
 end

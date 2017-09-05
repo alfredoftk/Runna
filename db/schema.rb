@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170904213831) do
+ActiveRecord::Schema.define(version: 20170905143227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,19 @@ ActiveRecord::Schema.define(version: 20170904213831) do
     t.index ["employee_id"], name: "index_employee_fields_on_employee_id"
   end
 
+  create_table "employee_process_fields", force: :cascade do |t|
+    t.bigint "employee_process_id", null: false
+    t.bigint "form_id", null: false
+    t.bigint "company_form_field_id", null: false
+    t.json "value", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_form_field_id"], name: "index_employee_process_fields_on_company_form_field_id"
+    t.index ["employee_process_id", "form_id", "company_form_field_id"], name: "employee_process_index", unique: true
+    t.index ["employee_process_id"], name: "index_employee_process_fields_on_employee_process_id"
+    t.index ["form_id"], name: "index_employee_process_fields_on_form_id"
+  end
+
   create_table "employee_processes", force: :cascade do |t|
     t.bigint "process_step_id", null: false
     t.bigint "company_id", null: false
@@ -166,7 +179,7 @@ ActiveRecord::Schema.define(version: 20170904213831) do
 
   create_table "employees", force: :cascade do |t|
     t.bigint "company_user_id", null: false
-    t.integer "status", default: 0
+    t.string "status", default: "inactive", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_user_id"], name: "index_employees_on_company_user_id"
@@ -258,24 +271,13 @@ ActiveRecord::Schema.define(version: 20170904213831) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "process_company_fields", force: :cascade do |t|
-    t.bigint "employee_process_id", null: false
-    t.bigint "form_id", null: false
-    t.bigint "company_form_field_id", null: false
-    t.json "value", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["company_form_field_id"], name: "index_process_company_fields_on_company_form_field_id"
-    t.index ["employee_process_id", "form_id", "company_form_field_id"], name: "process_company_index", unique: true
-    t.index ["employee_process_id"], name: "index_process_company_fields_on_employee_process_id"
-    t.index ["form_id"], name: "index_process_company_fields_on_form_id"
-  end
-
   create_table "process_steps", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
-    t.integer "status", default: 0
+    t.string "status", default: "inactive"
+    t.integer "order", default: 0, null: false
     t.bigint "form_id", null: false
+    t.string "key", null: false
     t.integer "created_by_id"
     t.integer "updated_by_id"
     t.datetime "created_at", null: false
@@ -356,6 +358,9 @@ ActiveRecord::Schema.define(version: 20170904213831) do
   add_foreign_key "contract_types", "regions"
   add_foreign_key "employee_fields", "company_form_fields"
   add_foreign_key "employee_fields", "employees"
+  add_foreign_key "employee_process_fields", "company_form_fields"
+  add_foreign_key "employee_process_fields", "employee_processes"
+  add_foreign_key "employee_process_fields", "forms"
   add_foreign_key "employee_processes", "companies"
   add_foreign_key "employee_processes", "employees"
   add_foreign_key "employee_processes", "process_steps"
@@ -369,9 +374,6 @@ ActiveRecord::Schema.define(version: 20170904213831) do
   add_foreign_key "form_fields", "regions"
   add_foreign_key "form_sections", "forms"
   add_foreign_key "headquarters", "companies"
-  add_foreign_key "process_company_fields", "company_form_fields"
-  add_foreign_key "process_company_fields", "employee_processes"
-  add_foreign_key "process_company_fields", "forms"
   add_foreign_key "process_steps", "forms"
   add_foreign_key "sessions", "company_users"
   add_foreign_key "work_shift_companies", "companies"
