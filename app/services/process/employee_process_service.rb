@@ -32,6 +32,24 @@ module Process
       return false
     end
 
+    def update
+      if employee_process_exists?
+        company_form_fields = CompanyFormField.where(form_field_id: @form_fields.map(&:id), company_id: @company.id)
+        form_params.each do |key, value|
+          form_field = @form_fields.select{ |form_field| form_field.name == key }.first
+          @employee_process.employee_process_fields.find_create_or_update(@form,
+                                                                          company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first,
+                                                                          value)
+        end
+        if !@employee_process.save
+          @error_response = ErrorResponse.record_not_saved(@employee_process)
+        end
+        return @employee_process.errors.empty?
+
+      end
+      return false
+    end
+
     private
 
     def build_process
@@ -46,7 +64,8 @@ module Process
       @params.require(:employee_process_field).permit(form_field_keys)
     end
 
-    def process_exists?
+    def employee_process_exists?
+      return @employee_process.present?
     end
 
     def form_exists?

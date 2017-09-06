@@ -1,5 +1,5 @@
 class EmployeeProcessFieldSerializer < ActiveModel::Serializer
 
-  attributes :field_name, :field_value
+  attributes :field_name, :value
 
 end
