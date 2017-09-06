@@ -20,7 +20,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :processes, only: [:update] do
+    resources :processes, only: [:continue_later] do
+      member do
+        put :continue_later
+      end
     end
 
 
