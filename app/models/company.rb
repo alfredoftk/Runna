@@ -25,6 +25,7 @@ class Company < ApplicationRecord
   has_many :payroll_types, through: :company_payroll_types
   has_many :company_banks
   has_many :banks, through: :company_banks
+  has_many :employee_processes
 
   validates :name, :subdomain, :custom_fqdn, presence: true
   validates :subdomain, uniqueness: true
