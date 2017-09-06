@@ -26,6 +26,8 @@ class Company < ApplicationRecord
   has_many :company_banks
   has_many :banks, through: :company_banks
   has_many :employee_processes
+  has_many :company_documents
+  has_many :documents, through: :company_documents
 
   validates :name, :subdomain, :custom_fqdn, presence: true
   validates :subdomain, uniqueness: true
