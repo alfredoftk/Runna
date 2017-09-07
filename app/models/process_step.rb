@@ -9,7 +9,7 @@ class ProcessStep < ApplicationRecord
     return order == 1
   end
 
-
-
-
+  def next_step
+    return order + 1
+  end
 end

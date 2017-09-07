@@ -7,4 +7,15 @@ class EmployeeField < ApplicationRecord
     record.value = value
     record.save!
   end
+
+  def self.find_or_init(company_form_field, value)
+    record = self.find_or_initialize_by(company_form_field:  company_form_field)
+    record.value = value
+    record
+  end
+
+  def field_name
+    company_form_field.form_field.name
+  end
+
 end

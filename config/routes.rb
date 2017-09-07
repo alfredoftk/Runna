@@ -14,13 +14,12 @@ Rails.application.routes.draw do
     resources :forms, only: [:index, :show], param: :key
     resources :processes, only: [:update] do
       collection do
-        post ':key/continue_later', to: 'processes#continue_later'
-        post ':key', to: 'processes#create'
+        post ':key/continue_later', to: 'processes#continue_later', as: 'continue_later'
+        post ':key', to: 'processes#create', as: ''
       end
       member do
         put :continue_later, to: 'processes#continue_later'
       end
     end
-
   end
 end
