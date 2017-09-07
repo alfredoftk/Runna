@@ -6,4 +6,12 @@ class FormFieldValidation < ApplicationRecord
 
   validate :options_validations
 
+  def allow_blank?
+    options['allow_blank'] == true
+  end
+
+  def allow_nil?
+    options['allow_nil'] == true
+  end
+
 end

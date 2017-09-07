@@ -7,7 +7,8 @@ class FormInclusionValidation < FormFieldValidation
   end
 
   def valid_value?(value)
-    include?(value)
+    return true if ((allow_blank? and value.blank?) or (allow_nil? and value.nil?))
+    return include?(value)
   end
 
   private

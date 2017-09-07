@@ -234,7 +234,7 @@ personal_info_fields = [
         type: "FormFormatValidation",
         message: "El Email Personal no tiene el formato correcto",
         options: {
-          with: /\A[^@\s]+@[^@\s]+\z/.to_s
+          with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.to_s
         }
       }
     ]
@@ -256,7 +256,7 @@ personal_info_fields = [
         type: "FormFormatValidation",
         message: "El Email laboral no tiene el formato correcto",
         options: {
-          with: /\A[^@\s]+@[^@\s]+\z/.to_s
+          with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.to_s
         }
       }
     ]
@@ -292,7 +292,7 @@ addittional_basic_info_fields = [
     help_text: nil,
     name: "nationality",
     input_data_source: "nationality",
-    data_type: "string",
+    data_type: "integer",
     widget_attributes: {},
     widget_type: "select",
     required: true,
@@ -524,7 +524,7 @@ emergency_contact_info_fields = [
         type: "FormFormatValidation",
         message: "El Email no tiene el formato correcto",
         options: {
-          with: /\A[^@\s]+@[^@\s]+\z/.to_s
+          with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.to_s
         }
       }
     ]
@@ -560,7 +560,7 @@ preferences_info_fields = [
     help_text: nil,
     name: "preferences_food",
     input_data_source: "food",
-    data_type: "string",
+    data_type: "integer",
     widget_attributes: {},
     widget_type: "select",
     required: false,
@@ -754,9 +754,9 @@ account_details_fields = [
     help_text: nil,
     name: "bank",
     input_data_source: "bank",
-    data_type: "string",
+    data_type: "integer",
     widget_attributes: {},
-    widget_type: "text",
+    widget_type: "select",
     required: true,
     field_order: 4,
     region: nil,

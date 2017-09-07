@@ -7,6 +7,7 @@ class FormFormatValidation < FormFieldValidation
   end
 
   def valid_value?(value)
+    return true if ((allow_blank? and value.blank?) or (allow_nil? and value.nil?))
     if options['with']
       regexp = option_call('with')
       return !(value.to_s !~ regexp)
@@ -20,8 +21,7 @@ class FormFormatValidation < FormFieldValidation
   private
 
   def option_call(name)
-    option = options[name]
-    Regexp.new(option.respond_to?(:call) ? option.call(self) : option)
+    Regexp.new(options[name])
   end
 
 end

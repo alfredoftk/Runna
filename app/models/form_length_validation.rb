@@ -9,6 +9,7 @@ class FormLengthValidation < FormFieldValidation
   end
 
   def valid_value?(value)
+    return true if ((allow_blank? and value.blank?) or (allow_nil? and value.nil?))
     value_length = value.respond_to?(:length) ? value.length : value.to_s.length
     VALIDATION_HASH.each do |key, validity_check|
       next unless check_value = options[key.to_s]
