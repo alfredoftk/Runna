@@ -15,6 +15,9 @@ class Company < ApplicationRecord
   has_many :work_shift_company
   has_many :work_shifts, through: :work_shift_company
   has_many :employee_processes
+  has_many :company_users
+  has_many :users, :through => :company_users
+
 
   validates :name, :subdomain, :custom_fqdn, presence: true
   validates :subdomain, uniqueness: true

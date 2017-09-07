@@ -5,6 +5,12 @@ class V1::ProcessesController < ApiV1Controller
   before_action :set_process_step_and_employee_process, only: [:update, :continue_later]
 
   def create
+    process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process)
+    if process_service.create
+      render json: process_service.employee_process
+    else
+      response_error_json_format(process_service.error_response)
+    end
   end
 
   def update

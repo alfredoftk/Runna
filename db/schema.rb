@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 20170905143227) do
   create_table "company_users", force: :cascade do |t|
     t.bigint "company_id", null: false
     t.bigint "user_id", null: false
-    t.string "password_digest", null: false
+    t.string "password_digest"
     t.integer "created_by_id"
     t.integer "updated_by_id"
     t.datetime "created_at", null: false

@@ -8,14 +8,14 @@ Rails.application.routes.draw do
       collection do
         get :current
         put :refresh_token
-        delete :destroy, path: ""
+        delete :destroy, path: ''
       end
     end
     resources :forms, only: [:index, :show], param: :key
     resources :processes, only: [:update] do
       collection do
-        post ":key/continue_later", to: 'processes#continue_later'
-        post ":key", to: 'processes#create'
+        post ':key/continue_later', to: 'processes#continue_later'
+        post ':key', to: 'processes#create'
       end
       member do
         put :continue_later, to: 'processes#continue_later'

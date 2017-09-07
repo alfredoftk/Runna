@@ -4,4 +4,12 @@ class ProcessStep < ApplicationRecord
   belongs_to :form
   has_many :employee_processes
   enum status: { inactive: 'inactive', active: 'active'  }
+
+  def step_1?
+    return order == 1
+  end
+
+
+
+
 end
