@@ -20,8 +20,7 @@ class FormFormatValidation < FormFieldValidation
   private
 
   def option_call(name)
-    option = options[name]
-    Regexp.new(option.respond_to?(:call) ? option.call(self) : option)
+    Regexp.new(options[name])
   end
 
 end

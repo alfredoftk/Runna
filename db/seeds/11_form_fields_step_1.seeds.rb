@@ -234,7 +234,7 @@ personal_info_fields = [
         type: "FormFormatValidation",
         message: "El Email Personal no tiene el formato correcto",
         options: {
-          with: /\A[^@\s]+@[^@\s]+\z/.to_s
+          with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.to_s
         }
       }
     ]
@@ -256,7 +256,7 @@ personal_info_fields = [
         type: "FormFormatValidation",
         message: "El Email laboral no tiene el formato correcto",
         options: {
-          with: /\A[^@\s]+@[^@\s]+\z/.to_s
+          with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.to_s
         }
       }
     ]
@@ -524,7 +524,7 @@ emergency_contact_info_fields = [
         type: "FormFormatValidation",
         message: "El Email no tiene el formato correcto",
         options: {
-          with: /\A[^@\s]+@[^@\s]+\z/.to_s
+          with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.to_s
         }
       }
     ]
