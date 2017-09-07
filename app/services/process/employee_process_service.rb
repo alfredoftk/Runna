@@ -34,17 +34,19 @@ module Process
           build_employee
           build_employee_process
           if assign_employee_fields
-            build_company_user
-            @employee.company_user = @user.company_users.first
-            if !@employee.save
-              @error_response = ErrorResponse.record_not_saved(@employee_process)
+            if build_company_user
+              if !@employee.save
+                @error_response = ErrorResponse.record_not_saved(@employee_process)
+              else
+                @employee.employee_process.update_process_step
+              end
             else
-              @employee.employee_process.update_process_step
+              return false
             end
           else
             return false
           end
-          return @user.errors.empty?
+          return @employee.errors.empty?
         else
           @error_response = ErrorResponse.new(title: 'The step is for create', status_code: :unprocessable_entity)
         end
@@ -64,7 +66,6 @@ module Process
     def assign_employee_fields
       employee_field_params.each do |key, value|
         form_field = @form_fields.select{ |field| field.name == key }.first
-        #crear servicio y validar validaciones
         var = Process::EmployeeFieldValidatorService.new(form_field, value)
         if var.valid_value?
           @employee.employee_fields << EmployeeField.find_or_init(company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first, value)
@@ -91,9 +92,15 @@ module Process
       name = @employee_params.dig('employee_field', 'name')
       family_name = @employee_params.dig('employee_field', 'family_name')
       additional_family_name = @employee_params.dig('employee_field', 'additional_family_name')
-      @user = User.create(email: email, name: name, family_name: family_name,
+      @user = User.new(email: email, name: name, family_name: family_name,
                           additional_family_name: additional_family_name)
       @user.companies << @company
+      unless @user.save
+        @error_response = ErrorResponse.new(title: @user.errors.messages, status_code: :unprocessable_entity)
+        return false
+      end
+      @employee.company_user = @user.company_users.first
+      return true
     end
 
     def form_field_keys
