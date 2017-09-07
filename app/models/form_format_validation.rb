@@ -1,9 +1,27 @@
 class FormFormatValidation < FormFieldValidation
 
-  before_save :verify_options
+  VALIDATION_KEYS = ['with', 'without']
 
-  def verify_options
-    self.options.has_key?("with")
+  def options_validations
+    errors.add(:base, "The key *#{VALIDATION_KEYS.join(' or ')}* is required") if (self.options.keys & VALIDATION_KEYS).empty?
+  end
+
+  def valid_value?(value)
+    if options['with']
+      regexp = option_call('with')
+      return !(value.to_s !~ regexp)
+    elsif options['without']
+      regexp = option_call('without')
+      return !(regexp.match?(value.to_s))
+    end
+    return false
+  end
+
+  private
+
+  def option_call(name)
+    option = options[name]
+    Regexp.new(option.respond_to?(:call) ? option.call(self) : option)
   end
 
 end
