@@ -1,6 +1,6 @@
-class CreateWorkShiftCompanies < ActiveRecord::Migration[5.1]
+class CreateCompanyWorkShifts < ActiveRecord::Migration[5.1]
   def change
-    create_table :work_shift_companies do |t|
+    create_table :company_work_shifts do |t|
       t.references :company, foreign_key: true
       t.references :work_shift, foreign_key: true
 
