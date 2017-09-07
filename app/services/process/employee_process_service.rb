@@ -87,7 +87,7 @@ module Process
         form_field = @form_fields.select{ |field| field.name == key }.first
         var = Process::EmployeeFieldValidatorService.new(form_field, value)
         if var.valid_value?
-          @employee.employee_fields << EmployeeField.find_or_init(company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first, value)
+          @employee.employee_fields << EmployeeField.new(company_form_field: company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first, value: value)
         else
           @error_response = ErrorResponse.new(title: var.error_messages, status_code: :unprocessable_entity)
           return false
