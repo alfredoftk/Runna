@@ -14,6 +14,12 @@ class V1::ProcessesController < ApiV1Controller
   end
 
   def update
+    process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process)
+    if process_service.update
+      render json: process_service.employee
+    else
+      response_error_json_format(process_service.error_response)
+    end
   end
 
   def continue_later

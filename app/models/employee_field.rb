@@ -12,6 +12,7 @@ class EmployeeField < ApplicationRecord
     record = self.find_or_initialize_by(company_form_field:  company_form_field)
     record.value = value
     record
+    binding.pry
   end
 
   def field_name
