@@ -9,6 +9,7 @@ class FormNumericalityValidation < FormFieldValidation
   end
 
   def valid_value?(value)
+    return true if (allow_nil? and value.nil?)
     raw_value = value
 
     unless is_number?(raw_value)
