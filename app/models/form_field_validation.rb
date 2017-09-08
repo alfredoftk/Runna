@@ -2,9 +2,9 @@ class FormFieldValidation < ApplicationRecord
 
   VALIDATION_KEYS = []
 
-  belongs_to :form_field
+  belongs_to :form_field, required: true
 
-  validates :name, :type, :message, :options, :form_field, presence: true
+  validates :name, :type, :message, :options, presence: true
   validate :options_validations
 
   def allow_blank?

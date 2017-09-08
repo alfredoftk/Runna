@@ -1,7 +1,8 @@
 class EmployeeProcessField < ApplicationRecord
-  belongs_to :employee_process
-  belongs_to :form
-  belongs_to :company_form_field
+
+  belongs_to :employee_process, required: true
+  belongs_to :form, required: true
+  belongs_to :company_form_field, required: true
   has_one :form_field, through: :company_form_field
 
   def field_name
