@@ -28,10 +28,10 @@ module Process
         build_employee
         build_employee_process
         if assign_and_validate_employee_fields
-           if save_employee
-             @employee.employee_process.next_step
-             return true
-           end
+          if save_employee
+            @employee.employee_process.next_step
+            return true
+          end
         end
       else
         @error_response = ErrorResponse.new(title: 'The step is for create', status_code: :unprocessable_entity) if @error_response.nil?
@@ -107,7 +107,10 @@ module Process
       if company_user.new_record?
         if company_user.save
           @employee.company_user = company_user
-          return true if @employee.save
+          if @employee.save
+            @employee_process = @employee.employee_process
+            return true
+          end
           @error_response = ErrorResponse.record_not_saved(@employee)
         else
           @error_response = ErrorResponse.record_not_saved(company_user)

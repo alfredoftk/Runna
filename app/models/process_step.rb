@@ -16,11 +16,23 @@ class ProcessStep < ApplicationRecord
   end
 
   def self.first_step
-    self.active.order('step_order ASC').first
+    self.active.order_asc.first
   end
 
   def self.last_step
-    self.active.order('step_order DESC').first
+    self.active.order_desc.first
+  end
+
+  def self.previous_steps step
+    self.active.order_asc.where('step_order < ?', step.step_order)
+  end
+
+  def self.order_asc
+    self.order('step_order ASC')
+  end
+
+  def self.order_desc
+    self.order('step_order DESC')
   end
 
 end
