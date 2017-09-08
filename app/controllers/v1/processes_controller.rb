@@ -2,7 +2,10 @@ class V1::ProcessesController < ApiV1Controller
 
   before_action :authenticate_with_token!
   before_action :set_process_step, only: [:create, :continue_later]
-  before_action :set_process_step_and_employee_process, only: [:update, :continue_later]
+  before_action :set_process_step_and_employee_process, only: [:update, :continue_later, :show]
+  before_action :set_form, only: [:update]
+
+
 
   def create
     process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process)
@@ -14,7 +17,7 @@ class V1::ProcessesController < ApiV1Controller
   end
 
   def update
-    process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process)
+    process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process, @form)
     if process_service.update
       render json: process_service.employee
     else
@@ -29,6 +32,10 @@ class V1::ProcessesController < ApiV1Controller
     else
       response_error_json_format(process_service.error_response)
     end
+  end
+
+  def show
+    render json: @employee_process
   end
 
   private
@@ -55,6 +62,13 @@ class V1::ProcessesController < ApiV1Controller
   def set_process_step_by_employess_process
     @process_step = @employee_process.process_step
     response_error_json_format(ErrorResponse.record_not_found('ProcessStep')) if @process_step.nil?
+  end
+
+  def set_form
+    @form = nil
+    unless params[:form_id].nil?
+      @form = Form.find(params[:form_id])
+    end
   end
 
 end

@@ -20,7 +20,9 @@ Rails.application.routes.draw do
         post ':key', to: 'processes#create', as: ''
       end
       member do
+        put 'forms/:form_id', to: 'processes#update'
         put :continue_later, to: 'processes#continue_later'
+        get :show
       end
     end
   end

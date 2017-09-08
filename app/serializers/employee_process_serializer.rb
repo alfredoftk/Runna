@@ -1,9 +1,11 @@
 class EmployeeProcessSerializer < ActiveModel::Serializer
 
-  attributes :id
+  attributes :id, :employee_process_fields
 
   belongs_to :process_step
+  has_many :employee_fields
 
-  has_many :employee_process_fields
-
+  def employee_process_fields
+    EmployeeProcessField.where(employee_process_id: object.id, form: object.process_step.form )
+  end
 end

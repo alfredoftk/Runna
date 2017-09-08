@@ -4,12 +4,12 @@ module Process
 
     attr_accessor :employee_process, :company, :process_step, :form, :form_fields, :params, :employee, :error_response
 
-    def initialize(company, process_step, params, employee_process=nil)
+    def initialize(company, process_step, params, employee_process=nil, form=nil)
       @company = company
       @process_step = process_step
       @employee_process = employee_process
       @params = params
-      @form = @process_step.form
+      @form = form.nil? ? @process_step.form : form
       @form_fields = @company.form_fields_by_form_id(@form.id)
     end
 
@@ -103,6 +103,7 @@ module Process
         if var.valid_value?
           @employee.employee_fields.find_create_or_update(company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first, value)
         else
+          binding.pry
           @error_response = ErrorResponse.new(title: var.error_messages, status_code: :unprocessable_entity)
           return false
         end
