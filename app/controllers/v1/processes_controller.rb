@@ -5,8 +5,6 @@ class V1::ProcessesController < ApiV1Controller
   before_action :set_process_step_and_employee_process, only: [:update, :continue_later, :show]
   before_action :set_form, only: [:update]
 
-
-
   def create
     process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process)
     if process_service.create
@@ -55,7 +53,7 @@ class V1::ProcessesController < ApiV1Controller
   end
 
   def set_employee_process
-    @employee_process = EmployeeProcess.find(params[:id])
+    @employee_process = EmployeeProcess.find_by(id: params[:id])
     response_error_json_format(ErrorResponse.record_not_found('EmployeeProcess')) if @employee_process.nil?
   end
 
@@ -65,10 +63,7 @@ class V1::ProcessesController < ApiV1Controller
   end
 
   def set_form
-    @form = nil
-    unless params[:form_id].nil?
-      @form = Form.find(params[:form_id])
-    end
+    @form = Form.find_by(id: params[:form_id]) if params[:form_id].present?
   end
 
 end

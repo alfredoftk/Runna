@@ -8,8 +8,8 @@ class EmployeeProcessField < ApplicationRecord
     form_field.name
   end
 
-  def self.find_create_or_update(form, company_form_field, value)
-    record = self.find_or_initialize_by(form: form, company_form_field:  company_form_field)
+  def self.find_or_initialize_by_and_update_value(args, value)
+    record = self.find_or_initialize_by(args)
     record.value = value
     record.save!
   end
