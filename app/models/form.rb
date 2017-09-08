@@ -6,6 +6,8 @@ class Form < ApplicationRecord
 
   enum form_type: { employee: "employee" }
 
+  validates :title, :key, :form_type, presence: true
+
   def to_param
     key
   end

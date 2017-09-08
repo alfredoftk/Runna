@@ -27,6 +27,7 @@ class Company < ApplicationRecord
   has_many :banks, through: :company_banks
 
   validates :name, :subdomain, :custom_fqdn, presence: true
+  validates :region, presence: true
   validates :subdomain, uniqueness: true
 
   def available_entity_fetcher entity

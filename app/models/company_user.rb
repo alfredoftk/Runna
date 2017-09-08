@@ -6,8 +6,9 @@ class CompanyUser < ApplicationRecord
   belongs_to :updated_by, foreign_key: :updated_by_id, class_name: "CompanyUser"
   has_many :sessions
 
-  has_secure_password
+  validates :user, presence: true
+  validates :company, presence: true
 
-  validates :password, presence: true
+  has_secure_password
 
 end
