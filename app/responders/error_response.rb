@@ -26,11 +26,20 @@ class ErrorResponse
     self.new(title: "#{model.capitalize} not found", description: "The #{model} does not exist", error: ErrorCode::Server::NOT_FOUND_ERROR)
   end
 
-  def self.record_not_saved(record)
+  def self.record_not_saved(record, reasons=nil)
     self.new(
       title: "#{record.class.to_s} not saved",
       description: "Verify the values of #{record.class.to_s}",
-      reasons: record.errors.full_messages,
+      reasons: reasons || record.errors.messages,
+      error: ErrorCode::DataValidation::VALIDATION_ERROR
+    )
+  end
+
+  def self.record_exists(record, reasons=nil)
+    self.new(
+      title: "#{record.class.to_s} already exists",
+      description: "Verify the values of #{record.class.to_s}",
+      reasons: reasons || record.errors.messages,
       error: ErrorCode::DataValidation::VALIDATION_ERROR
     )
   end

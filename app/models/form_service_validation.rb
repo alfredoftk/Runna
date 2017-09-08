@@ -1,9 +1,13 @@
 class FormServiceValidation < FormFieldValidation
 
-  before_save :verify_options
+  VALIDATION_KEYS = ['url']
 
-  def verify_options
-    self.options.has_key?("url")
+  def options_validations
+    errors.add(:base, "The key *#{VALIDATION_KEYS.join(' or ')}* is required") if (self.options.keys & VALIDATION_KEYS).empty?
+  end
+
+  def valid_value?(value)
+    true
   end
 
 end

@@ -58,6 +58,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   # Rspec-rails is a testing framework
   gem 'rspec-rails', '~> 3.6'
+  gem 'rails-erd'
 end
 
 group :development do

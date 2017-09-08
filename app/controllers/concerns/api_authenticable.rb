@@ -14,6 +14,10 @@ module APIAuthenticable
     @current_company_user ? @current_company_user : find_company_user_by_session
   end
 
+  def current_company
+    @current_company ||= current_company_user.company
+  end
+
   def company_user_signed_in?
     current_company_user.present?
   end
