@@ -102,12 +102,16 @@ module Process
 
     def save_employee
       company_user = CompanyUser.find_or_initialize_by_employee_params_and_company(employee_params, @company)
-      if company_user.save
-        @employee.company_user = company_user
-        return true if @employee.save
-        @error_response = ErrorResponse.record_not_saved(@employee)
+      if company_user.new_record?
+        if company_user.save
+          @employee.company_user = company_user
+          return true if @employee.save
+          @error_response = ErrorResponse.record_not_saved(@employee)
+        else
+          @error_response = ErrorResponse.record_not_saved(company_user)
+        end
       else
-        @error_response = ErrorResponse.record_not_saved(company_user)
+        @error_response = ErrorResponse.record_exists(company_user, { personal_email: ["is already taken"] })
       end
       return false
     end

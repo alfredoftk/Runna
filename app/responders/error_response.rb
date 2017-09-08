@@ -35,6 +35,15 @@ class ErrorResponse
     )
   end
 
+  def self.record_exists(record, reasons=nil)
+    self.new(
+      title: "#{record.class.to_s} already exists",
+      description: "Verify the values of #{record.class.to_s}",
+      reasons: reasons || record.errors.messages,
+      error: ErrorCode::DataValidation::VALIDATION_ERROR
+    )
+  end
+
   def self.unknown_error error
     self.new(
       title: "An unknown error has ocurred",
