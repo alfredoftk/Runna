@@ -179,7 +179,7 @@ ActiveRecord::Schema.define(version: 20170906170423) do
   create_table "company_users", force: :cascade do |t|
     t.bigint "company_id", null: false
     t.bigint "user_id", null: false
-    t.string "password_digest", null: false
+    t.string "password_digest"
     t.integer "created_by_id"
     t.integer "updated_by_id"
     t.datetime "created_at", null: false
@@ -447,7 +447,7 @@ ActiveRecord::Schema.define(version: 20170906170423) do
     t.string "name", null: false
     t.string "description"
     t.string "status", default: "inactive"
-    t.integer "order", default: 0, null: false
+    t.integer "step_order", default: 0, null: false
     t.bigint "form_id", null: false
     t.string "key", null: false
     t.integer "created_by_id"

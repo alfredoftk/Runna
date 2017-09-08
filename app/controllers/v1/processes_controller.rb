@@ -1,42 +1,69 @@
 class V1::ProcessesController < ApiV1Controller
+
   before_action :authenticate_with_token!
   before_action :set_process_step, only: [:create, :continue_later]
-  before_action :set_company, only: [:create, :continue_later]
-  before_action :set_employee_process, only: [:continue_later]
-
+  before_action :set_process_step_and_employee_process, only: [:update, :continue_later, :show]
+  before_action :set_form, only: [:update]
 
   def create
-  end
-
-  def continue_later
-    process_service = Process::EmployeeProcessService.new(@company, @process_step, params, @process)
-    if process_service.continue_later
+    process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process)
+    if process_service.create
       render json: process_service.employee_process
     else
-      response_error_json_format(ErrorResponse.new(title: 'Couldnt save', status_code: :bad_request, description: ''))
+      response_error_json_format(process_service.error_response)
     end
   end
 
+  def update
+    process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process, @form)
+    if process_service.update
+      render json: process_service.employee_process
+    else
+      response_error_json_format(process_service.error_response)
+    end
+  end
+
+  def continue_later
+    process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process)
+    if process_service.continue_later
+      render json: process_service.employee_process
+    else
+      response_error_json_format(process_service.error_response)
+    end
+  end
+
+  def show
+    render json: @employee_process
+  end
+
   private
+
   def set_process_step
     unless params[:key].nil?
-      @process_step = ProcessStep.find_by key: params[:key]
+      @process_step = ProcessStep.find_by(key: params[:key])
       response_error_json_format(ErrorResponse.record_not_found('ProcessStep')) if @process_step.nil?
     end
   end
 
-  def set_employee_process
+  def set_process_step_and_employee_process
     unless params[:id].nil?
-      employee_p = EmployeeProcess.find(params[:id])
-      @process_step = employee_p.process_step
-      @process = employee_p
-      response_error_json_format(ErrorResponse.record_not_found('EmployeeProcess')) if @process.nil?
+      set_employee_process
+      set_process_step_by_employess_process
     end
   end
 
-  def set_company
-    @company = current_company_user.company
+  def set_employee_process
+    @employee_process = EmployeeProcess.find_by(id: params[:id])
+    response_error_json_format(ErrorResponse.record_not_found('EmployeeProcess')) if @employee_process.nil?
   end
 
+  def set_process_step_by_employess_process
+    @process_step = @employee_process.process_step
+    response_error_json_format(ErrorResponse.record_not_found('ProcessStep')) if @process_step.nil?
+  end
+
+  def set_form
+    @form = Form.find_by(id: params[:form_id]) if params[:form_id].present?
+  end
 
 end

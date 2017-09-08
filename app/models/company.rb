@@ -1,6 +1,6 @@
 class Company < ApplicationRecord
 
-  belongs_to :region
+  belongs_to :region, required: true
   belongs_to :created_by, foreign_key: :created_by_id, class_name: "User"
   belongs_to :updated_by, foreign_key: :updated_by_id, class_name: "User"
   has_many :company_form_fields
@@ -28,6 +28,8 @@ class Company < ApplicationRecord
   has_many :employee_processes
   has_many :company_documents
   has_many :documents, through: :company_documents
+  has_many :company_users
+  has_many :users, through: :company_users
 
   validates :name, :subdomain, :custom_fqdn, presence: true
   validates :subdomain, uniqueness: true

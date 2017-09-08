@@ -26,10 +26,10 @@ module Auth
         if company_user.authenticate(password)
           @company_user = company_user
         else
-          @error_response = ErrorResponse.new(status_code: :unprocessable_entity, title: "No se inició sesión", reasons: { password: "is incorrect" }, description: "Verifique su usuario y/o contraseña")
+          @error_response = ErrorResponse.new(error: ErrorCode::DataValidation::VALIDATION_ERROR, title: "No se inició sesión", reasons: { password: "is incorrect" }, description: "Verifique su usuario y/o contraseña")
         end
       else
-        @error_response = ErrorResponse.new(status_code: :unprocessable_entity, title: "No se inició sesión", reasons: { company_user: "not found" }, description: "Verifique el subdomain y/o email")
+        @error_response = ErrorResponse.new(error: ErrorCode::DataValidation::VALIDATION_ERROR, title: "No se inició sesión", reasons: { company_user: "not found" }, description: "Verifique el subdomain y/o email")
       end
       return @company_user.present?
     end
@@ -37,7 +37,7 @@ module Auth
     def company
       @company = Company.find_by_subdomain(subdomain)
       if @company.nil?
-        @error_response = ErrorResponse.new(status_code: :unprocessable_entity, title: "No se inició sesión", reasons: { subdomain: "does not exist" }, description: "Verifique su subdomain")
+        @error_response = ErrorResponse.new(error: ErrorCode::DataValidation::VALIDATION_ERROR, title: "No se inició sesión", reasons: { subdomain: "does not exist" }, description: "Verifique su subdomain")
       end
       return @company
     end
@@ -45,7 +45,7 @@ module Auth
     def user
       @user = User.find_by_email(email)
       if @user.nil?
-        @error_response = ErrorResponse.new(status_code: :unprocessable_entity, title: "No se inició sesión", reasons: { email: "does not exist" }, description: "Verifique su cuenta")
+        @error_response = ErrorResponse.new(error: ErrorCode::DataValidation::VALIDATION_ERROR, title: "No se inició sesión", reasons: { email: "does not exist" }, description: "Verifique su cuenta")
       end
       return @user
     end

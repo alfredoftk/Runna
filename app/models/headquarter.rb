@@ -6,6 +6,6 @@ class Headquarter < ApplicationRecord
   has_many :companies, through: :company_headquarters
   has_many :headquarter_details
 
-  validates :name, presence: true
+  validates :name, :phone, presence: true
 
 end

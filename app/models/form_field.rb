@@ -1,12 +1,14 @@
 class FormField < ApplicationRecord
 
   belongs_to :region
-  belongs_to :form_section
+  belongs_to :form_section#, required: true
   belongs_to :created_by, foreign_key: :created_by_id, class_name: "PlatformUser"
   belongs_to :updated_by, foreign_key: :updated_by_id, class_name: "PlatformUser"
   has_many :form_field_validations
   has_many :company_form_fields
   has_many :companies, through: :company_form_fields
+
+  validates :display_name, :name, :data_type, :widget_type, :field_order, presence: true
 
   accepts_nested_attributes_for :form_field_validations
 
