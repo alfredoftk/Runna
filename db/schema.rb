@@ -424,7 +424,7 @@ ActiveRecord::Schema.define(version: 20170905143227) do
     t.string "name", null: false
     t.string "description"
     t.string "status", default: "inactive"
-    t.integer "order", default: 0, null: false
+    t.integer "step_order", default: 0, null: false
     t.bigint "form_id", null: false
     t.string "key", null: false
     t.integer "created_by_id"

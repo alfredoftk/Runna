@@ -8,7 +8,7 @@ class V1::ProcessesController < ApiV1Controller
   def create
     process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process)
     if process_service.create
-      render json: process_service.employee
+      render json: process_service.employee_process
     else
       response_error_json_format(process_service.error_response)
     end
@@ -17,7 +17,7 @@ class V1::ProcessesController < ApiV1Controller
   def update
     process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process, @form)
     if process_service.update
-      render json: process_service.employee
+      render json: process_service.employee_process
     else
       response_error_json_format(process_service.error_response)
     end

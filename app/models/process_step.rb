@@ -8,19 +8,19 @@ class ProcessStep < ApplicationRecord
   enum status: { inactive: 'inactive', active: 'active'  }
 
   def step_one?
-    order == 1
+    step_order == 1
   end
 
   def next_step
-    ProcessStep.active.find_by(order: self.order + 1)
+    ProcessStep.active.find_by(step_order: self.step_order + 1)
   end
 
   def self.first_step
-    self.active.order('order ASC').first
+    self.active.order('step_order ASC').first
   end
 
   def self.last_step
-    self.active.order('order DESC').first
+    self.active.order('step_order DESC').first
   end
 
 end
