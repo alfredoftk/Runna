@@ -8,6 +8,8 @@ class FormField < ApplicationRecord
   has_many :company_form_fields
   has_many :companies, through: :company_form_fields
 
+  validates :display_name, :name, :data_type, :widget_attributes, :widget_type, :required, :field_order, :form_section, presence: true
+
   accepts_nested_attributes_for :form_field_validations
 
   def self.form_fields_by_form_id form_id

@@ -4,6 +4,7 @@ class FormFieldValidation < ApplicationRecord
 
   belongs_to :form_field
 
+  validates :name, :type, :message, :options, :form_field, presence: true
   validate :options_validations
 
   def allow_blank?
