@@ -23,11 +23,10 @@ class CompanyFormFieldsSerializer < ActiveModel::Serializer
   end
 
   def meta_form
-    first_step = ProcessStep.first_step
     {
       actions: {
-        continue_later: { url: continue_later_processes_path(first_step.key), method: 'POST' },
-        submit: { url: processes_path(first_step.key), method: 'POST' }
+        continue_later: { url: continue_later_processes_path, method: 'POST' },
+        submit: { url: processes_path, method: 'POST' }
       }
     }
   end
