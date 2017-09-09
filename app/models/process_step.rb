@@ -7,10 +7,6 @@ class ProcessStep < ApplicationRecord
 
   enum status: { inactive: 'inactive', active: 'active'  }
 
-  def step_one?
-    step_order == 1
-  end
-
   def next_step
     ProcessStep.active.find_by(step_order: self.step_order + 1)
   end

@@ -1,7 +1,7 @@
 class EmployeeProcessSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  attributes :id, :employee_process_fields, :process_step, :employee_fields, :meta
+  attributes :id, :process_step, :employee_process_fields, :employee_fields, :meta
   belongs_to :process_step
   has_many :employee_fields
 

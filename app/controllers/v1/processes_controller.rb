@@ -7,7 +7,7 @@ class V1::ProcessesController < ApiV1Controller
 
   def create
     process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process)
-    if process_service.create
+    if process_service.create_employee_process
       render json: process_service.employee_process
     else
       response_error_json_format(process_service.error_response)
@@ -16,7 +16,7 @@ class V1::ProcessesController < ApiV1Controller
 
   def update
     process_service = Process::EmployeeProcessService.new(current_company, @process_step, params, @employee_process, @form)
-    if process_service.update
+    if process_service.update_employee_process
       render json: process_service.employee_process
     else
       response_error_json_format(process_service.error_response)
@@ -39,14 +39,12 @@ class V1::ProcessesController < ApiV1Controller
   private
 
   def set_process_step
-    unless params[:key].nil?
-      @process_step = ProcessStep.find_by(key: params[:key])
-      response_error_json_format(ErrorResponse.record_not_found('ProcessStep')) if @process_step.nil?
-    end
+    @process_step = ProcessStep.first_step
+    response_error_json_format(ErrorResponse.record_not_found('ProcessStep')) if @process_step.nil?
   end
 
   def set_process_step_and_employee_process
-    unless params[:id].nil?
+    if params[:id].present?
       set_employee_process
       set_process_step_by_employess_process
     end
