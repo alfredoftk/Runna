@@ -115,6 +115,26 @@ personal_info_fields = [
     ]
   },
   {
+      display_name: "Fecha de Nacimiento",
+      help_text: nil,
+      name: "birthdate",
+      input_data_source: nil,
+      data_type: "string",
+      widget_attributes: {},
+      widget_type: "text",
+      required: true,
+      field_order: 5,
+      region: nil,
+      form_field_validations_attributes: [
+          {
+              name: "Fecha de nacimiento requerida",
+              type: "FormPresenceValidation",
+              message: "La fecha de nacimiento es requerida",
+              options: {},
+          }
+      ]
+  },
+  {
     display_name: "ID de empleado",
     help_text: "",
     name: "employee_identifier",
@@ -123,7 +143,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "text",
     required: false,
-    field_order: 5,
+    field_order: 6,
     region: nil,
     form_field_validations_attributes: []
   },
@@ -136,7 +156,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "text",
     required: true,
-    field_order: 6,
+    field_order: 7,
     region: region,
     form_field_validations_attributes:[
       {
@@ -172,7 +192,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "text",
     required: true,
-    field_order: 7,
+    field_order: 8,
     region: region,
     form_field_validations_attributes: [
       {
@@ -200,7 +220,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "text",
     required: true,
-    field_order: 8,
+    field_order: 9,
     region: region,
     form_field_validations_attributes: [
       {
@@ -220,7 +240,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "email",
     required: true,
-    field_order: 9,
+    field_order: 10,
     region: nil,
     form_field_validations_attributes: [
       {
@@ -248,7 +268,7 @@ personal_info_fields = [
     widget_attributes: {},
     widget_type: "email",
     required: false,
-    field_order: 10,
+    field_order: 11,
     region: nil,
     form_field_validations_attributes: [
       {
@@ -260,6 +280,19 @@ personal_info_fields = [
         }
       }
     ]
+  },
+  {
+      display_name: "Foto De Perfil",
+      help_text: "",
+      name: "profile_picture",
+      input_data_source: nil,
+      data_type: "string",
+      widget_attributes: {},
+      widget_type: "text",
+      required: false,
+      field_order: 12,
+      region: nil,
+      form_field_validations_attributes: []
   },
   {
     display_name: "Invitar al empleado a ingresar la información personal adicional",
@@ -277,7 +310,7 @@ personal_info_fields = [
     },
     widget_type: "checkbox",
     required: false,
-    field_order: 11,
+    field_order: 13,
     region: nil,
     form_field_validations_attributes: []
   }

@@ -23,5 +23,8 @@ Rails.application.routes.draw do
         put 'forms/:form_id', to: 'processes#update', as: 'forms'
       end
     end
+    resources :employees, only: [:index, :show]
+
+
   end
 end

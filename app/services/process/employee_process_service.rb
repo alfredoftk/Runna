@@ -58,7 +58,7 @@ module Process
     def assign_employee_process_fields
       employee_process_params.each do |key, value|
         form_field = @form_fields.select{ |field| field.name == key }.first
-        @employee_process.employee_process_fields.find_or_initialize_by_and_update_value({ form: @form , company_form_field: company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first }, value)
+        @employee_process.employee_process_fields.find_or_initialize_by_and_update_value({ form: @form , company_form_field: company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first }, value, form_field.name)
       end
     end
 
@@ -70,7 +70,7 @@ module Process
           @error_response = ErrorResponse.record_not_saved(@employee, validator_service.error_messages)
           return false
         end
-        @employee.employee_fields << EmployeeField.new(company_form_field: company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first, value: value)
+        @employee.employee_fields << EmployeeField.new(company_form_field: company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first, value: value, field_name: form_field.name )
       end
       return true
     end
@@ -83,7 +83,7 @@ module Process
           @error_response = ErrorResponse.record_not_saved(@employee, validator_service.error_messages)
           return false
         end
-        @employee.employee_fields.find_or_initialize_by_and_update_value({ company_form_field: company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first }, value)
+        @employee.employee_fields.find_or_initialize_by_and_update_value({ company_form_field: company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first }, value, form_field.name)
       end
       return true
     end

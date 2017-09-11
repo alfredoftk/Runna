@@ -45,6 +45,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
+    api-pagination (4.6.3)
     arel (8.0.0)
     awesome_print (1.8.0)
     bcrypt (3.1.11)
@@ -285,6 +286,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.6)
+  api-pagination
   awesome_print (~> 1.8)
   bcrypt (~> 3.1.7)
   better_errors
@@ -295,6 +297,7 @@ DEPENDENCIES
   devise (~> 4.3)
   figaro (~> 1.1.1)
   jbuilder (~> 2.5)
+  kaminari
   listen (>= 3.0.5, < 3.2)
   pg (~> 0.21.0)
   pry-rails

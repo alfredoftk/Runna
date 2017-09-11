@@ -216,6 +216,7 @@ ActiveRecord::Schema.define(version: 20170905143227) do
     t.bigint "company_form_field_id", null: false
     t.bigint "employee_id", null: false
     t.json "value", default: {}, null: false
+    t.string "field_name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_form_field_id", "employee_id"], name: "index_employee_fields_on_company_form_field_id_and_employee_id", unique: true
@@ -228,6 +229,7 @@ ActiveRecord::Schema.define(version: 20170905143227) do
     t.bigint "form_id", null: false
     t.bigint "company_form_field_id", null: false
     t.json "value", default: {}, null: false
+    t.string "field_name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_form_field_id"], name: "index_employee_process_fields_on_company_form_field_id"
@@ -270,7 +272,7 @@ ActiveRecord::Schema.define(version: 20170905143227) do
 
   create_table "employees", force: :cascade do |t|
     t.bigint "company_user_id", null: false
-    t.string "status", default: "inactive", null: false
+    t.string "status", default: "in_progress", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_user_id"], name: "index_employees_on_company_user_id"
