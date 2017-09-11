@@ -1,4 +1,5 @@
 class CompanyFormFieldsSerializer < ActiveModel::Serializer
+  include Rails.application.routes.url_helpers
 
   attributes :form, :meta
 
@@ -16,13 +17,26 @@ class CompanyFormFieldsSerializer < ActiveModel::Serializer
 
   def meta
     meta_attributes = Hash.new
-    meta_attributes[:form] = {}
-    meta_attributes[:fields] = (
+    meta_attributes[:form] = meta_form
+    meta_attributes[:fields] = meta_fields
+    return meta_attributes
+  end
+
+  def meta_form
+    {
+      actions: {
+        continue_later: { url: continue_later_processes_path, method: 'POST' },
+        submit: { url: processes_path, method: 'POST' }
+      }
+    }
+  end
+
+  def meta_fields
+    (
       object[:company_form_fields].select{|form_field| !form_field.depends_on.blank? }.map do |form_field|
         meta_field(form_field)
       end
     ).to_h
-    return meta_attributes
   end
 
   def meta_field form_field

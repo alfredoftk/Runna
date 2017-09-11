@@ -2,7 +2,7 @@ module Process
 
   class EmployeeProcessService
 
-    attr_accessor :employee_process, :employee, :error_response
+    attr_accessor :employee_process, :error_response
 
     def initialize(company, process_step, params, employee_process=nil, form=nil)
       @company = company
@@ -23,23 +23,21 @@ module Process
       return false
     end
 
-    def create
-      if form_exists? and @process_step.step_one?
+    def create_employee_process
+      if form_exists?
         build_employee
         build_employee_process
         if assign_and_validate_employee_fields
-           if save_employee
-             @employee.employee_process.next_step
-             return true
-           end
+          if save_employee
+            @employee.employee_process.next_step
+            return true
+          end
         end
-      else
-        @error_response = ErrorResponse.new(title: 'The step is for create', status_code: :unprocessable_entity) if @error_response.nil?
       end
       return false
     end
 
-    def update
+    def update_employee_process
       if form_exists?
         if @employee = @employee_process.employee
           if update_and_validate_employee_fields
@@ -52,6 +50,10 @@ module Process
       end
       return false
     end
+
+    private
+
+    attr_reader :company, :process_step, :params, :form, :form_fields, :employee
 
     def assign_employee_process_fields
       employee_process_params.each do |key, value|
@@ -86,10 +88,6 @@ module Process
       return true
     end
 
-    private
-
-    attr_reader :company, :process_step, :params, :form, :form_fields
-
     def build_process
       @employee_process = @process_step.employee_processes.new(company: @company)
     end
@@ -107,7 +105,10 @@ module Process
       if company_user.new_record?
         if company_user.save
           @employee.company_user = company_user
-          return true if @employee.save
+          if @employee.save
+            @employee_process = @employee.employee_process
+            return true
+          end
           @error_response = ErrorResponse.record_not_saved(@employee)
         else
           @error_response = ErrorResponse.record_not_saved(company_user)
