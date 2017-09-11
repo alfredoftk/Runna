@@ -4,6 +4,6 @@ class Employee < ApplicationRecord
   has_many :employee_fields
   has_one :employee_process
 
-  enum status: { inactive: 'inactive', in_progress: 'in_progress', active: 'active'  }
+  enum status: { in_progress: 'in_progress', active: 'active', inactive: 'inactive'  }
 
 end
