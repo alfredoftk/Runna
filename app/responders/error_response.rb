@@ -60,6 +60,14 @@ class ErrorResponse
     )
   end
 
+  def self.bad_request error
+    self.new(
+      title: "Bad request",
+      reasons: error.messages,
+      error: ErrorCode::Server::BAD_REQUEST_ERROR
+    )
+  end
+
   def self.unauthorized
     self.new(title: "You are unauthorized to perform this action", description: "The token is incorrect", error: ErrorCode::Token::INVALID_TOKEN_ERROR)
   end

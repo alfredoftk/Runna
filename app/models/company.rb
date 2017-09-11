@@ -43,4 +43,16 @@ class Company < ApplicationRecord
     self.form_fields.form_fields_by_form_id form_id
   end
 
+  def available_documents types
+    if types.nil?
+      self.available_entity_fetcher("document")
+    else
+      if types.include?('EmployeesDocument') or types.include?('CompaniesDocument')
+        self.available_entity_fetcher("document").select{|x| types.include?(x.type)}
+      else
+        errors.add(:base, 'wrong types param, try with EmployeesDocument or CompaniesDocument')
+      end
+    end
+  end
+
 end
