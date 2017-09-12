@@ -6,13 +6,15 @@ class Employee < ApplicationRecord
 
   enum status: { in_progress: 'in_progress', active: 'active', inactive: 'inactive'  }
 
+  def self.all_active_and_inactive
+    self.where(status: [:active, :inactive]).order(id: :asc)
+  end
+
   def personal_info
     EmployeeField.joins('LEFT JOIN company_form_fields ON company_form_fields.id = employee_fields.company_form_field_id')
         .joins('LEFT JOIN form_fields ON form_fields.id = company_form_fields.form_field_id')
         .where('employee_fields.employee_id = ?', self.id)
         .where('form_fields.name IN (?)', self.values_name)
-    #.select('employee_fields.value AS value, form_fields.name AS name')
-
   end
 
   def values_name
@@ -27,8 +29,12 @@ class Employee < ApplicationRecord
     unless start_date.nil? and end_date.nil?
       start_date = start_date.value.to_date
       end_date = end_date.value.to_date
-      if end_date >= start_date
-       return start_date.year - Time.now.year
+      unless start_date > Time.now.year
+        if end_date > start_date
+          return start_date.year - Time.now.year
+        else
+          return start_date.year - end_date.year
+        end
       end
     end
     return nil
