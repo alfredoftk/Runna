@@ -4,7 +4,11 @@ class V1::EmployeesController < ApiV1Controller
   before_action :set_employee, only: [:show, :update ]
 
   def index
-    @employees = paginate Employee.all_active_and_inactive, page: params[:page], per_page: 15
+    unless params[:by_status].nil?
+      @employees = paginate Employee.by_params(params[:by_status]), page: params[:page], per_page: 15
+    else
+      @employees = paginate Employee.all, page: params[:page], per_page: 15
+    end
     render json: @employees, each_serializer: EmployeeIndexSerializer
   end
 

@@ -6,8 +6,9 @@ class Employee < ApplicationRecord
 
   enum status: { in_progress: 'in_progress', active: 'active', inactive: 'inactive'  }
 
-  def self.all_active_and_inactive
-    self.where(status: [:active, :inactive]).order(id: :asc)
+  def self.by_params(params)
+    vector = params.split(/[\s,]+/)
+    self.where(status: vector).order(id: :asc)
   end
 
   def personal_info
@@ -24,8 +25,8 @@ class Employee < ApplicationRecord
   end
 
   def years_in_company
-    start_date = self.employee_fields.where(field_name: 'contract_start_date').first
-    end_date = self.employee_fields.where(field_name: 'contract_end_date').first
+    start_date = self.employee_fields.find_by(field_name: 'contract_start_date')
+    end_date = self.employee_fields.find_by(field_name: 'contract_end_date')
     unless start_date.nil? and end_date.nil?
       start_date = start_date.value.to_date
       end_date = end_date.value.to_date
