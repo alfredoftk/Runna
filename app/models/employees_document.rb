@@ -1,0 +1,2 @@
+class EmployeesDocument < Document
+end

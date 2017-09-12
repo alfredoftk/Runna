@@ -14,7 +14,7 @@ module Auth
         @old_session.expire!
         @session = @old_session.company_user.sessions.create
       else
-        @error_response = ErrorResponse.new(error: ErrorCode::Token::INVALID_REFRESH_TOKEN_ERROR, title: 'Could not refresh token', reasons: { base: 'Access token or refresh token is invalid' }, description: 'Enter a valid access and refresh token')
+        @error_response = ErrorResponse.new(title: 'Could not refresh token', reasons: { base: 'Access token or refresh token is invalid' }, description: 'Enter a valid access token and refresh token', status_code: :bad_request)
       end
       return @session.present?
     end

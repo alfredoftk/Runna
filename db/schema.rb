@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170905143227) do
+ActiveRecord::Schema.define(version: 20170906170423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,6 +109,17 @@ ActiveRecord::Schema.define(version: 20170905143227) do
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_company_contract_types_on_company_id"
     t.index ["contract_type_id"], name: "index_company_contract_types_on_contract_type_id"
+  end
+
+  create_table "company_documents", force: :cascade do |t|
+    t.bigint "company_id"
+    t.bigint "document_id"
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_documents_on_company_id"
+    t.index ["document_id"], name: "index_company_documents_on_document_id"
+    t.index ["employee_id"], name: "index_company_documents_on_employee_id"
   end
 
   create_table "company_employee_types", force: :cascade do |t|
@@ -210,6 +221,18 @@ ActiveRecord::Schema.define(version: 20170905143227) do
     t.string "nationality", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "documents", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.boolean "allow_update", default: false, null: false
+    t.bigint "region_id"
+    t.integer "company_owner_id"
+    t.string "type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_documents_on_region_id"
   end
 
   create_table "employee_fields", force: :cascade do |t|
@@ -522,6 +545,9 @@ ActiveRecord::Schema.define(version: 20170905143227) do
   add_foreign_key "company_benefits", "companies"
   add_foreign_key "company_contract_types", "companies"
   add_foreign_key "company_contract_types", "contract_types"
+  add_foreign_key "company_documents", "companies"
+  add_foreign_key "company_documents", "documents"
+  add_foreign_key "company_documents", "employees"
   add_foreign_key "company_employee_types", "companies"
   add_foreign_key "company_employee_types", "employee_types"
   add_foreign_key "company_form_fields", "companies"
@@ -540,6 +566,7 @@ ActiveRecord::Schema.define(version: 20170905143227) do
   add_foreign_key "company_work_shifts", "work_shifts"
   add_foreign_key "contract_type_details", "contract_types"
   add_foreign_key "contract_types", "regions"
+  add_foreign_key "documents", "regions"
   add_foreign_key "employee_fields", "company_form_fields"
   add_foreign_key "employee_fields", "employees"
   add_foreign_key "employee_process_fields", "company_form_fields"
