@@ -15,6 +15,10 @@ class ProcessStep < ApplicationRecord
     self.active.order_asc.first
   end
 
+  def step_three?
+    return self.step_order == 3
+  end
+
   def self.last_step
     self.active.order_desc.first
   end

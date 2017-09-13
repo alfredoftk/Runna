@@ -1,0 +1,2 @@
+class CompaniesDocument < Document
+end

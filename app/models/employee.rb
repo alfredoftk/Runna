@@ -1,9 +1,14 @@
 class Employee < ApplicationRecord
 
   belongs_to :company_user
-  has_many :employee_fields
+  has_one :process_step
   has_one :employee_process
+  has_many :employee_fields
   has_many :contributions
+  has_many :company_documents
+  has_many :documents , through: :company_documents
+  has_many :suggested_employee_documents
+  has_many :suggested_documents , through: :suggested_employee_documents, source: :document
 
   enum status: { in_progress: 'in_progress', active: 'active', inactive: 'inactive'  }
 

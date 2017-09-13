@@ -1,4 +1,5 @@
 class EmployeeField < ApplicationRecord
+
   belongs_to :employee
   belongs_to :company_form_field
 
@@ -8,5 +9,4 @@ class EmployeeField < ApplicationRecord
     record.field_name = form_field
     record.save!
   end
-
 end

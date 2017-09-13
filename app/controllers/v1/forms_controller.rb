@@ -7,7 +7,7 @@ class V1::FormsController < ApiV1Controller
     if params[:entity] == "employee"
       render json: Form.employee
     else
-      response_error_json_format(ErrorResponse.new(title: 'Unknown entity', error: ErrorCode::Server::BAD_REQUEST_ERROR, description: 'Entity param is required'))
+      response_error_json_format(ErrorResponse.new(title: 'Could not list forms', description: 'Entity param is required', status_code: :bad_request))
     end
   end
 

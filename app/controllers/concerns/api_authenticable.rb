@@ -27,9 +27,9 @@ module APIAuthenticable
   def authenticate_with_token!
     if !company_user_signed_in?
       if current_session and current_session.expired?
-        response_error_json_format(ErrorResponse.unauthorized_expired_access_token)
-      else
         response_error_json_format(ErrorResponse.unauthorized)
+      else
+        response_error_json_format(ErrorResponse.bad_request({ access_token: 'is incorrect' }))
       end
     end
   end

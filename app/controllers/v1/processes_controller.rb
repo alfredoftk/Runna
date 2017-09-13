@@ -40,7 +40,7 @@ class V1::ProcessesController < ApiV1Controller
 
   def set_process_step
     @process_step = ProcessStep.first_step
-    response_error_json_format(ErrorResponse.record_not_found('ProcessStep')) if @process_step.nil?
+    response_error_json_format(ErrorResponse.record_not_found('Process Step')) if @process_step.nil?
   end
 
   def set_process_step_and_employee_process
@@ -52,12 +52,12 @@ class V1::ProcessesController < ApiV1Controller
 
   def set_employee_process
     @employee_process = EmployeeProcess.find_by(id: params[:id])
-    response_error_json_format(ErrorResponse.record_not_found('EmployeeProcess')) if @employee_process.nil?
+    response_error_json_format(ErrorResponse.record_not_found('Employee Process')) if @employee_process.nil?
   end
 
   def set_process_step_by_employess_process
     @process_step = @employee_process.process_step
-    response_error_json_format(ErrorResponse.record_not_found('ProcessStep')) if @process_step.nil?
+    response_error_json_format(ErrorResponse.record_not_found('Process Step')) if @process_step.nil?
   end
 
   def set_form

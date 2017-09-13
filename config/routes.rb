@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   devise_for :platform_users
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+
   scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
     resources :sessions, only: :create do
       collection do
@@ -23,8 +24,8 @@ Rails.application.routes.draw do
         put 'forms/:form_id', to: 'processes#update', as: 'forms'
       end
     end
+    resources :documents, only: :index
     resources :employees, only: [:index, :show, :update]
-
-
   end
+
 end

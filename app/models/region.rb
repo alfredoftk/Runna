@@ -9,6 +9,7 @@ class Region < ApplicationRecord
   has_many :contract_types
   has_many :employee_types
   has_many :work_shifts
+  has_many :documents
 
   validates :name, :key, presence: true
 

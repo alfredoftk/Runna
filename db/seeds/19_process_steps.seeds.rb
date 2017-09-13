@@ -1,2 +1,3 @@
 ProcessStep.create name: "Paso 1", description: "Proceso correspondiente al formulario 1", status: 'active', form: Form.first, step_order: 1, key: 'step-1'
 ProcessStep.create name: "Paso 2", description: "Proceso correspondiente al formulario 2", status: 'active', form: Form.find(2), step_order: 2, key: 'step-2'
+ProcessStep.create name: "Paso 3", description: "Proceso correspondiente al formulario 3", status: 'active', form: Form.find(3), step_order: 3, key: 'step-3'

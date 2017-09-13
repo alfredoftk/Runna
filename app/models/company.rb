@@ -26,9 +26,10 @@ class Company < ApplicationRecord
   has_many :company_banks
   has_many :banks, through: :company_banks
   has_many :employee_processes
+  has_many :company_documents
+  has_many :documents, through: :company_documents
   has_many :company_users
-  has_many :users, :through => :company_users
-
+  has_many :users, through: :company_users
 
   validates :name, :subdomain, :custom_fqdn, presence: true
   validates :subdomain, uniqueness: true
@@ -40,6 +41,18 @@ class Company < ApplicationRecord
 
   def form_fields_by_form_id form_id
     self.form_fields.form_fields_by_form_id form_id
+  end
+
+  def available_documents types
+    if types.nil?
+      self.available_entity_fetcher("document")
+    else
+      if types.include?('EmployeesDocument') or types.include?('CompaniesDocument')
+        self.available_entity_fetcher("document").select{|x| types.include?(x.type)}
+      else
+        errors.add(:base, 'wrong types param, try with EmployeesDocument or CompaniesDocument')
+      end
+    end
   end
 
 end

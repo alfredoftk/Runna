@@ -39,13 +39,18 @@ module Process
 
     def update_employee_process
       if form_exists?
-        if @employee = @employee_process.employee
-          if update_and_validate_employee_fields
-            @employee_process.next_step if @employee_process.process_step.form == @form
-            return true
-          end
+        if @employee_process.process_step.step_three?
+          ##logica de los documents
+          assign_documents
         else
-          @error_response = ErrorResponse.record_not_found('Employee')
+          if @employee = @employee_process.employee
+            if update_and_validate_employee_fields
+              @employee_process.next_step if @employee_process.process_step.form == @form
+              return true
+            end
+          else
+            @error_response = ErrorResponse.record_not_found('Employee')
+          end
         end
       end
       return false
@@ -73,6 +78,14 @@ module Process
         @employee.employee_fields << EmployeeField.new(company_form_field: company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first, value: value, field_name: form_field.name )
       end
       return true
+    end
+
+    def assign_documents
+      form_field = @form_fields.select{ |field| field.name == 'suggested_documents_ids' }.first
+      values = @params[:employee][:suggested_documents_ids]
+      @employee_process.employee.suggested_documents << Document.where(id: values)
+      values = values.map { |i| "'" + i.to_s + "'" }.join(",")
+      @employee_process.employee.employee_fields.find_or_initialize_by_and_update_value({ company_form_field: company_form_fields.select{ |company_form_field| company_form_field.form_field_id == form_field.id }.first }, values, form_field.name)
     end
 
     def update_and_validate_employee_fields
