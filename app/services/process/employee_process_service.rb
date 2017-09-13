@@ -41,7 +41,7 @@ module Process
       if form_exists?
         if @employee_process.process_step.step_three?
           ##logica de los documents
-          assign_documents
+          return assign_documents
         else
           if @employee = @employee_process.employee
             if update_and_validate_employee_fields
@@ -81,6 +81,7 @@ module Process
     end
 
     def assign_documents
+      #falta validar que no ocurra ningun error sino retornar true
       form_field = @form_fields.select{ |field| field.name == 'suggested_documents_ids' }.first
       values = @params[:employee][:suggested_documents_ids]
       @employee_process.employee.suggested_documents << Document.where(id: values)
